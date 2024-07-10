@@ -75,17 +75,32 @@ const ProductsListing = () => {
   return (
     <div className={styles.productsListingContainer}>
       <ProductsNavbar/>
+      <div className={styles.listingLabels}>
+        <ul>
+          <li>
+            Product name
+          </li>
+          <li>Category</li>
+          <li>Color</li>
+          <li>Stock</li>
+          <li>Price</li>
+          <li>Discount</li>
+        </ul>
+        <span/>
+      </div>
       {productsList.length > 0 ? productsList.map((product, index) => 
         <div className={styles.itemContainer}>
-          <div className={styles.imageContainer}>
-            <Image src={product.image_url} alt="product image" fill className={styles.image}/>
-          </div>
           <ul key={index}>
-            <li>{product.product_name}</li>
+            <li style={{display: 'flex', gap: '0.5rem', alignItems: 'center'}}>
+              <div className={styles.imageContainer}>
+                <Image src={product.image_url} alt="product image" fill className={styles.image}/>
+              </div>
+              {product.product_name}
+            </li>
             <li>{product.category_name}</li>
             <li>{product.color_label}</li>
             <li>{product.stock}</li>
-            <li>{product.price}</li>
+            <li>${product.price}</li>
             <li>{product.discount}</li>
           </ul>
           <button className={styles.actionsButton} onClick={() => setActionDropdown(actionDropdown === product.product_id ? null : product.product_id)}>

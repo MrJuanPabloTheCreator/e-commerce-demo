@@ -3,9 +3,8 @@
     flex-direction: column;
     width: 20%;
     padding-top: 2rem;
-    border-right: 2px;
-    border-right-style: solid;
-    border-color: #787878;
+    border-right: hsla(0, 0%, 0%, 0.2) 2px solid;
+    background-color: white;
 }
 
 .button {
@@ -14,14 +13,12 @@
     align-items: center;
     gap: 1rem;
     font-weight: 600;
-    color: #787878;
+    color: rgba(0, 0, 0, 0.5);
     padding: 1rem;
-    border: 2px;
-    border-style: solid;
-    border-color: #787878;
+    text-decoration: none;
 }
 
 .button:hover {
-    background-color: rgba(255, 255, 255, 0.827);
+    background-color: rgba(0, 0, 0, 0.05);
     cursor: pointer;
 }

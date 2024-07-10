@@ -1,5 +1,4 @@
 import ProductsListing from "./_components/productsListing"
-import ProductsNavbar from "./_components/productsNavbar"
 import styles from "./products.module.css"
 
 const ProductsPage = () => {
