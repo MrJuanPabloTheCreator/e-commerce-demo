@@ -23,20 +23,26 @@ export async function GET(req: NextRequest) {
                 c.description as category_description,
                 co.color_id,
                 co.color_label,
+                ps.id as stock_id,
+                ps.stock,
+                ps.updated_at as stock_updated,
                 p.product_id,
                 p.name as product_name,
                 p.description,
-                p.stock,
                 p.price,
+                p.specie_name,
+                p.breed_name,
                 p.discount,
                 p.image_url,
                 p.created_at,
-                p.updated_at    
+                p.updated_at
             from products p 
             inner join categories c
             on p.category_id = c.category_id
+            inner join product_stock ps
+            on p.product_id = ps.product_id
             inner join colors co
-            on p.color = co.color_id
+            on ps.color_id = co.color_id
         `;
 
         if(colors){ 
@@ -79,14 +85,23 @@ export async function POST(req: NextRequest) {
 
         const product_id = uuidv4();
         const formData = await req.json();
-        const { name, description, category, color, stock, price, imageURL } = formData
+        const { name, description, category, specie, breed, color, stock, price, discount, imageURL } = formData
+        let updatedBreed = breed;
+        if(breed === 'NULL'){
+            updatedBreed = null
+        }
 
         const [newProductQuery] = await connection.query(
-            `INSERT INTO products (product_id, name, description, category_id, color, stock, price, image_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`,
-            [product_id, name, description, category, color, stock, price, imageURL]
+            `INSERT INTO products (product_id, name, specie_name, breed_name, description, category_id, price, discount, image_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+            [product_id, name, specie, updatedBreed, description, category, price, discount, imageURL]
         );
 
-        if(newProductQuery.affectedRows > 0){
+        const [newProductStockQuery] = await connection.query(
+            `INSERT INTO product_stock (product_id, color_id, stock) VALUES (?, ?, ?);`,
+            [product_id, color, stock]
+        );
+
+        if(newProductQuery.affectedRows > 0 && newProductStockQuery.affectedRows > 0){
             connection.commit()
             return new NextResponse(JSON.stringify({ success: true }), { status: 200 })
         } else {

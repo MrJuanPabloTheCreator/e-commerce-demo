@@ -1,0 +1,15 @@
+.pageContainer {
+    display: flex;
+    justify-content: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    z-index: 1;
+}
+
+.productListing {
+    width: 85%;
+    max-width: 1920px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}

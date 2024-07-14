@@ -1,0 +1,22 @@
+
+.cardContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.productImageContainer {
+    position: relative;
+    height: 26rem;
+    width: 100%;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease-in-out;
+}
+.productImage {
+    object-fit: contain;
+}
+.productImageContainer:hover {
+    box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.2);
+}

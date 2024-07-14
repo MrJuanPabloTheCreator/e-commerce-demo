@@ -9,28 +9,11 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import toast from "react-hot-toast";
 
+import { categories, species, colors } from "@/constants";
+
 interface NewProductModalProps {
     setProductModal: (value: boolean) => void;
 };
-
-const categories = [
-    { value: '1', label: 'Socs'},
-    { value: '2', label: 'Socss'}
-]
-  
-const colors = [
-    { value: '#FF0000', label: 'Red' },
-    { value: '#0000FF', label: 'Blue' },
-    { value: '#008000', label: 'Green' },
-    { value: '#FFFF00', label: 'Yellow' },
-    { value: '#FFA500', label: 'Orange' },
-    { value: '#800080', label: 'Purple' },
-    { value: '#000000', label: 'Black' },
-    { value: '#FFFFFF', label: 'White' },
-    { value: '#808080', label: 'Gray' },
-    { value: '#FFC0CB', label: 'Pink' },
-    { value: '#A52A2A', label: 'Brown' },
-];
 
 const NewProductModal: React.FC<NewProductModalProps> = ({ setProductModal }) => {
     const [imageFile, setImageFile] = useState<File | null>(null)
@@ -39,9 +22,12 @@ const NewProductModal: React.FC<NewProductModalProps> = ({ setProductModal }) =>
         register, 
         handleSubmit, 
         control,
+        watch,
         formState: { errors, isSubmitting },
         reset
     } = useForm();
+
+    const selectedSpecies = watch("specie");
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0] ?? null;
@@ -61,6 +47,8 @@ const NewProductModal: React.FC<NewProductModalProps> = ({ setProductModal }) =>
 
     const onSubmit = async (data: FieldValues) => {
         try {
+            console.log('here')
+            console.log(data)
             let imageURL = null;
             if(imageFile){
                 const checksum = await computeSHA256(imageFile)
@@ -88,7 +76,7 @@ const NewProductModal: React.FC<NewProductModalProps> = ({ setProductModal }) =>
                     throw new Error('Failed to get signed URL');
                 }
             }
-            const { name, description, category, color, stock, price, } = data;
+            const { name, description, category, specie, breed, color, stock, price, discount } = data;
 
             const newProductResponse = await fetch('/api/products', {
                 method: 'POST',
@@ -96,9 +84,12 @@ const NewProductModal: React.FC<NewProductModalProps> = ({ setProductModal }) =>
                     name,
                     description,
                     category,
+                    specie,
+                    breed,
                     color,
                     stock,
                     price,
+                    discount,
                     imageURL
                 })
             })
@@ -113,6 +104,7 @@ const NewProductModal: React.FC<NewProductModalProps> = ({ setProductModal }) =>
             }
              
         } catch (error: any){
+            console.log(error.message)
             toast.error(error.message)
         }
     }
@@ -138,6 +130,31 @@ const NewProductModal: React.FC<NewProductModalProps> = ({ setProductModal }) =>
             </header>
             <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
                 <section className={styles.section_1}>
+
+                    {imagePreview ? (
+                        <div className={styles.imageContainer}>
+                            <Image src={imagePreview} alt="product image" className={styles.image} layout="fill"/> 
+                        </div>
+                    ):( 
+                        <label className={styles.imageInput}>
+                            <ImageUp size={48}/>
+                            <Controller
+                                control={control}
+                                name="image_url"
+                                rules={{ required: true }}
+                                render={({ field }) => (
+                                    <input
+                                    type="file"
+                                    accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm"
+                                    onChange={(e) => {
+                                        handleFileChange(e);
+                                        field.onChange(e);
+                                    }}
+                                    />
+                                )}
+                            />
+                        </label>
+                    )} 
 
                     <div>
                         <fieldset>
@@ -170,46 +187,57 @@ const NewProductModal: React.FC<NewProductModalProps> = ({ setProductModal }) =>
                                 {
                                     ...register("category", {
                                         required: "Category is required",
-                                        validate: value => value != ''
+                                        validate: value => value != 0
                                     })
                                 }
                             >
-                                <option value={''}>Select category</option>
+                                <option value={0}>Select category</option>
                                 {categories.map((category, index) => 
-                                    <option key={index} value={category.value}>
-                                        {category.label}
+                                    <option key={index} value={category.id}>
+                                        {category.name}
                                     </option>
                                 )}
                             </select>
                             {errors.category && <span>Please select a valid category</span>}
                         </fieldset>
 
-                    </div>
-
-                    {imagePreview ? (
-                        <div className={styles.imageContainer}>
-                            <Image src={imagePreview} alt="product image" className={styles.image} layout="fill"/> 
-                        </div>
-                    ):( 
-                        <label className={styles.imageInput}>
-                            <ImageUp size={48}/>
-                            <Controller
-                                control={control}
-                                name="image_url"
-                                rules={{ required: true }}
-                                render={({ field }) => (
-                                    <input
-                                    type="file"
-                                    accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm"
-                                    onChange={(e) => {
-                                        handleFileChange(e);
-                                        field.onChange(e);
-                                    }}
-                                    />
+                        <fieldset>
+                            <h3>Specie</h3>
+                            <select
+                                {
+                                    ...register("specie", {
+                                        required: "specie is required",
+                                        validate: value => value != ''
+                                    })
+                                }
+                            >
+                                <option value={''}>Select Specie</option>
+                                {species.map((specie, index) => 
+                                    <option key={index} value={specie.name}>
+                                        {specie.name}
+                                    </option>
                                 )}
-                            />
-                        </label>
-                    )} 
+                            </select>
+                            {errors.specie && <span>Please select a valid specie</span>}
+                        </fieldset>
+
+                        <fieldset>
+                            <h3>Breed (optional)</h3>
+                            <select
+                                {
+                                    ...register("breed")
+                                }
+                            >
+                                <option value={'NULL'}>Select Breed</option>
+                                {selectedSpecies && species.find(species => species.name === selectedSpecies)?.breeds.map((breed, index) => 
+                                    <option key={index} value={breed}>
+                                        {breed}
+                                    </option>
+                                )}
+                            </select>
+                        </fieldset>
+
+                    </div>
 
                 </section>
 
@@ -253,6 +281,16 @@ const NewProductModal: React.FC<NewProductModalProps> = ({ setProductModal }) =>
                             {...register("price", { required: true, validate: value => value >= 0 || "Price must be a positive number"  })} 
                         />
                         {errors.price && <span>This field is required and must be a positive number</span>}
+                    </fieldset>
+
+                    <fieldset>
+                        <h3>Discount % (optional)</h3>
+                        <input
+                            type="number" 
+                            step="0.01" 
+                            {...register("discount", { required: true, validate: value => value >= 0 && value <= 100 || "Discount must be a between 0 and 100"  })} 
+                        />
+                        {errors.discount && <span>Discount % must be a between 0 and 100</span>}
                     </fieldset>
 
                 </section>

@@ -1,0 +1,117 @@
+
+.navbarContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+}
+
+.topNavbarContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    max-width: 1920px;
+    width: 85%;
+    /* overflow: hidden; */
+}
+
+.rightSideTopNav {
+    display: flex;
+    position: absolute;
+    right: 0;
+    gap: 0.5rem;
+}
+
+.leftSideTopNav {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    height: 2.8rem;
+    overflow: hidden;
+    left: 0;
+    cursor: pointer;
+    text-decoration: none;
+    color: #7A3B69;
+}
+
+.imageContainer {
+    position: relative;
+    margin-top: 0.8rem;
+}
+.logoImage {
+    transform: rotate(15deg);
+    object-fit: contain;
+}
+
+.bottomNavbarContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.5rem;
+    gap: 1rem;
+    background-color: #F6F5AE;
+    /* border-bottom: 2px rgba(0, 0, 0, 0.1) solid;
+    border-top: 2px rgba(0, 0, 0, 0.1) solid; */
+    z-index: 20;
+}
+
+.searchbar {
+    width: 40%;
+    display: flex;
+    align-items: center;
+    padding: 0.3rem;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    border-radius: 1.5rem;
+    color: rgba(0, 0, 0, 0.5);
+    border: 2px rgba(0, 0, 0, 0.1) solid;
+}
+
+.searchbar input {
+    border: none;
+    outline: none;
+    color: black;
+    width: 100%;
+}
+
+.filterToggleButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: medium;
+    font-weight: 500;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    background-color: white;
+    cursor: pointer;
+}
+
+.filtersContainer {
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    padding: 0.5rem;
+    background-color: rgb(0, 0, 140);
+}
+
+.categories {
+    display: flex;
+    gap: 1rem;
+}
+
+.link {
+    text-decoration: none;
+    padding: 0.5rem;
+    color: #7A3B69;
+    font-weight: 600;
+    font-size: medium;
+}
+
+

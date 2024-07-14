@@ -9,25 +9,8 @@ import Image from "next/image"
 import { EllipsisVertical } from "lucide-react"
 import { deleteProduct } from "../actions/deleteProduct"
 import UpdateProductModal from "./updateProductModal"
-
-export interface Product {
-  category_id: string;
-  category_name: string;
-  category_description: string;
-
-  color_id: string;
-  color_label: string;
-
-  product_id: string;
-  product_name: string;
-  stock: number;
-  created_at: string;
-  price: number;
-  discount: string;
-  image_url: string;
-  updated_at: string;
-  description: string;
-}
+import { Product } from "@/types"
+import toast from "react-hot-toast"
 
 const dropDownActions = [
   {action: 'Archive', icon: ''},
@@ -61,7 +44,12 @@ const ProductsListing = () => {
         setUpdateProduct(product)
         break;
       case 'Delete':
-        await deleteProduct(product.product_id);
+        const { success, error } = await deleteProduct(product.product_id);
+        if(success){
+          toast.success('Product deleted succesfully!')
+        } else {
+          toast.error(error)
+        }
         break;
       default:
         break;
@@ -104,7 +92,7 @@ const ProductsListing = () => {
             <li>{product.discount}</li>
           </ul>
           <button className={styles.actionsButton} onClick={() => setActionDropdown(actionDropdown === product.product_id ? null : product.product_id)}>
-            <EllipsisVertical />
+            <EllipsisVertical size={20}/>
           </button>
           {actionDropdown === product.product_id && 
             <div className={styles.actionDropdown}>
