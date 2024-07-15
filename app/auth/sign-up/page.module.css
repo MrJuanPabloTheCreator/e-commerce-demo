@@ -1,0 +1,94 @@
+/* SignUp.module.css */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: center;
+  background-color: #1e1e1e; /* Assuming zdark is #1e1e1e */
+  padding: 1.75rem;
+  border-radius: 0.5rem;
+  width: 450px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.headerTitle {
+  display: flex;
+  align-items: center;
+}
+
+.headerText {
+  font-size: 2.5rem;
+  font-weight: 800;
+}
+
+.textGreen {
+  color: #38b44b; /* Assuming zdgreen is #38b44b */
+}
+
+.textGray {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.welcomeText {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.labelText {
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+}
+
+.input {
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  background-color: #1e1e1e; /* Assuming zdark is #1e1e1e */
+  color: white;
+  border-radius: 0.375rem;
+  padding: 0.25rem;
+  outline: none;
+}
+
+.button {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #38b44b; /* Assuming zdgreen is #38b44b */
+  font-weight: 600;
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+  transition: background-color 0.2s;
+}
+
+.button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.signInLink {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: none;
+  transition: text-decoration 0.2s;
+}
+
+.signInLink:hover {
+  text-decoration: underline;
+}

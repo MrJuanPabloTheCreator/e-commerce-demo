@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 
 import { Product } from "@/types"
 import styles from "./productListing.module.css"
-import ProductCard from '../../_components/productCard';
+import ProductCard from '@/app/(pages)/_components/_ProductCard/productCard';
 
 const ProductListing = () => {
     const [productsList, setProductsList] = useState<Product[]>([])

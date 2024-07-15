@@ -3,13 +3,15 @@
 import { CircleUserRound, Heart, Search, ShoppingCart, SlidersHorizontal } from "lucide-react"
 import styles from "./navbar.module.css"
 import { useState } from "react"
-import Filter from "./filter"
+import Filter from "../_Filter/filter"
 import { categories } from "@/constants"
 import Link from "next/link"
 import Image from "next/image"
 import { useSearchParams } from "next/navigation"
+import CartDropdown from "../_CartDropdown/cart"
 
 const PagesNavbar = () => {
+  const [activeAction, setActiveAction] = useState<string | null>(null)
   const [displayFilters, setDisplayFilters] = useState(false)
   const searchParams = useSearchParams();
   const selectedCategory = searchParams.get('c')
@@ -35,7 +37,10 @@ const PagesNavbar = () => {
         <div className={styles.rightSideTopNav}>
           <Heart size={24}/>
           <CircleUserRound size={24}/>
-          <ShoppingCart size={24}/>
+          <button className={styles.shoppingCart} onClick={() => setActiveAction(activeAction === 'cart' ? null : 'cart')}>
+            <ShoppingCart size={24}/>
+          </button>
+          {activeAction === 'cart' && <CartDropdown />}
         </div>
       </section>
 

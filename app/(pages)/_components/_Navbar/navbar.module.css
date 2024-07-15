@@ -58,7 +58,6 @@
     background-color: #F6F5AE;
     /* border-bottom: 2px rgba(0, 0, 0, 0.1) solid; */
     /* border-top: 2px rgba(0, 0, 0, 0.1) solid; */
-    z-index: 20;
 }
 
 .searchbar {
@@ -115,6 +114,12 @@
     font-weight: 700;
     font-size: 1rem;
     line-height: 1.5rem;
+}
+
+.shoppingCart {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
 }
 
 

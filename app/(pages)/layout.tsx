@@ -1,4 +1,4 @@
-import PagesNavbar from "./_components/pagesNavbar";
+import PagesNavbar from "./_components/_Navbar/pagesNavbar";
 import styles from "./layout.module.css"
 
 const PagesLayout = ({

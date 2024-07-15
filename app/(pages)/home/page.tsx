@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react"
 
 import { Product } from "@/types"
-import ProductCard from "../_components/productCard";
+import ProductCard from "../_components/_ProductCard/productCard"
 import styles from "./page.module.css"
 
 const HomePage = () => {

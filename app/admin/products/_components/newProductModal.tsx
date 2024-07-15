@@ -244,23 +244,17 @@ const NewProductModal: React.FC<NewProductModalProps> = ({ setProductModal }) =>
                 <section className={styles.section_2}>   
 
                     <fieldset>
-                        <h3>Color</h3>
+                        <h3>Color (optional)</h3>
                         <select
-                            {
-                                ...register("color", {
-                                    required: true,
-                                    validate: value => value != '' 
-                                })
-                            }
+                            {...register("color")}
                         >
-                            <option value={''}>Select color</option>
+                            <option value={'NULL'}>Select color</option>
                             {colors.map((color, index) => 
                                 <option key={index} value={color.value}>
                                     {color.label}
                                 </option>
                             )}
                         </select>
-                        {errors.color && <span>Please select a valid color</span>}
                     </fieldset>
 
                     <fieldset>

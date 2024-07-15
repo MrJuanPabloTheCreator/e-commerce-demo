@@ -16,9 +16,10 @@ export async function DELETE(req: NextRequest, { params }: Params, res: NextResp
     try {
         await connection.beginTransaction();
 
+        const [deleteProductStockQuery] = await connection.query('DELETE FROM product_stock WHERE product_id = ?;', [id]);
         const [deleteProductQuery] = await connection.query('DELETE FROM products WHERE product_id = ?;', [id]);
 
-        if(deleteProductQuery.affectedRows > 0){
+        if(deleteProductStockQuery.affectedRows > 0 && deleteProductQuery.affectedRows > 0){
             await connection.commit();
             return new NextResponse(JSON.stringify({ success: true }), { status: 200 });
         } else {

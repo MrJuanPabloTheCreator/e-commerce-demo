@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import styles from "./productCard.module.css"
 import { useState } from "react";
-import ProductModal from "./productModal";
+import ProductModal from "../_ProductModal/productModal";
 
 interface ProductCardProps {
     product: Product;

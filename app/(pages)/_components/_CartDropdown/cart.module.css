@@ -1,0 +1,10 @@
+
+.dropdownContainer {
+    position: absolute;
+    top: 100%;
+    right: 0%;
+    width: 15rem;
+    padding: 0.5rem;
+    background-color: white;
+    z-index: 25;
+}

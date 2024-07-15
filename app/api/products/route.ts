@@ -41,7 +41,7 @@ export async function GET(req: NextRequest) {
             on p.category_id = c.category_id
             inner join product_stock ps
             on p.product_id = ps.product_id
-            inner join colors co
+            left join colors co
             on ps.color_id = co.color_id
         `;
 
@@ -93,8 +93,12 @@ export async function POST(req: NextRequest) {
         const formData = await req.json();
         const { name, description, category, specie, breed, color, stock, price, discount, imageURL } = formData
         let updatedBreed = breed;
+        let updatedColor = color;
         if(breed === 'NULL'){
             updatedBreed = null
+        }
+        if(color === 'NULL'){
+            updatedColor = null
         }
 
         const [newProductQuery] = await connection.query(
@@ -104,7 +108,7 @@ export async function POST(req: NextRequest) {
 
         const [newProductStockQuery] = await connection.query(
             `INSERT INTO product_stock (product_id, color_id, stock) VALUES (?, ?, ?);`,
-            [product_id, color, stock]
+            [product_id, updatedColor, stock]
         );
 
         if(newProductQuery.affectedRows > 0 && newProductStockQuery.affectedRows > 0){
