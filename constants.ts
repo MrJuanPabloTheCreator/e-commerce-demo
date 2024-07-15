@@ -49,6 +49,7 @@ export const categories = [
 
 export const species = [
     {
+        image: '/dog.png',
         name: 'Dog',
         breeds: [
             "Labrador Retriever",
@@ -59,6 +60,7 @@ export const species = [
         ]
     },
     {
+        image: '/cat.png',
         name: 'Cat',
         breeds: [
             "Siamese",
@@ -69,6 +71,7 @@ export const species = [
         ]
     },
     {
+        image: '/bird.png',
         name: 'Bird',
         breeds: [
             "Canary",
@@ -79,6 +82,7 @@ export const species = [
         ]
     },
     {
+        image: '/fish.png',
         name: 'Fish',
         breeds: [
             "Goldfish",
@@ -89,6 +93,7 @@ export const species = [
         ]
     },
     {
+        image: '/reptile.png',
         name: 'Reptile',
         breeds: [
             "Bearded Dragon",
@@ -99,6 +104,7 @@ export const species = [
         ]
     },
     {
+        image: '/amphibian.png',
         name: 'Amphibian',
         breeds: [
             "Frog",
@@ -108,6 +114,7 @@ export const species = [
         ]
     },
     {
+        image: '/small animal.png',
         name: 'Small Animal',
         breeds: [
             "Hamster",
@@ -118,6 +125,7 @@ export const species = [
         ]
     },
     {
+        image: '/horse.png',
         name: 'Horse',
         breeds: [
             "Thoroughbred",

@@ -7,9 +7,12 @@ import Filter from "./filter"
 import { categories } from "@/constants"
 import Link from "next/link"
 import Image from "next/image"
+import { useSearchParams } from "next/navigation"
 
 const PagesNavbar = () => {
   const [displayFilters, setDisplayFilters] = useState(false)
+  const searchParams = useSearchParams();
+  const selectedCategory = searchParams.get('c')
 
   return (
     <div className={styles.navbarContainer}>
@@ -38,9 +41,9 @@ const PagesNavbar = () => {
 
       <section className={styles.bottomNavbarContainer}>
         <div className={styles.categories}>
-          {categories.map((catgory, index) => 
-            <Link href={`/category?${catgory.id}`} key={index} className={styles.link}>
-              {catgory.name}
+          {categories.map((category, index) => 
+            <Link href={`/products?c=${category.id}`} key={index} className={styles.link} style={category.id === Number(selectedCategory) ? { backgroundColor: '#6D326D', color: 'white', borderRadius: '1.5rem' } : {}}>
+              {category.name}
             </Link>
           )}
         </div>

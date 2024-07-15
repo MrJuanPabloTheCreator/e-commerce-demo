@@ -4,9 +4,9 @@ const db = require('@/db');
 
 export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
-    const categories = searchParams.get('categories');
+    const category = searchParams.get('c');
+    const specie = searchParams.get('specie')
     const colors = searchParams.get('colors');
-    const priceRange = searchParams.get('price');
 
     const connection = await db.getConnection();
     console.log('USING connection in GET products threadId:', connection.threadId);
@@ -45,24 +45,30 @@ export async function GET(req: NextRequest) {
             on ps.color_id = co.color_id
         `;
 
+        // console.log(category, specie)
         if(colors){ 
             const colorsArray = colors.split(',');
             let colorFilter = `WHERE (` + colorsArray.map(() => `co.color_id = ?`).join(' OR ') + `)`;
             query += colorFilter;
             values.push(...colorsArray);
         }
-        if(categories){ 
-            const categoriesArray = categories.split(',');
+        if(category){ 
+            const categoriesArray = category.split(',');
             let categoryFilter = ` ${colors ? 'AND' : 'WHERE'} (` + categoriesArray.map(() => `c.category_id = ?`).join(' OR ') + `)`;
             query += categoryFilter;
             values.push(...categoriesArray);
         }
+        if(specie){ 
+            let specieFilter = ` ${specie ? 'AND' : 'WHERE'} (p.specie_name = ?)`;
+            query += specieFilter;
+            values.push(specie);
+        }
 
         query += `;`
-        // console.log(query, values)
+        console.log(query, values)
         const [productsResult] = await connection.query(query, values)
 
-        // console.log(productsResult)
+        console.log(productsResult)
         await connection.commit();
         return new NextResponse(JSON.stringify({ success: true, products: productsResult}), { status: 200 });
 

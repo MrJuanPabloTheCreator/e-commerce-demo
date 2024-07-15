@@ -1,0 +1,39 @@
+.speciesContainer {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    overflow: auto;
+}
+
+.specieCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    color: #6D326D;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: none;
+    font-size: 1.25rem;
+    font-weight: 300;
+}
+
+.specieCard:hover {
+    background-color: rgba(108, 50, 108, 1);
+    color: white;
+    text-decoration: underline;
+}
+
+.specieImageContainer {
+    position: relative;
+    min-width: 140px;
+    height: 140px;
+    background-color: white;
+    border-radius: 20rem;
+    overflow: hidden;
+}
+
+.specieImage {
+    object-fit: contain;
+}

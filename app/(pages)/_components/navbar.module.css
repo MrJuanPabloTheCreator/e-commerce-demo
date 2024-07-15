@@ -35,7 +35,7 @@
     left: 0;
     cursor: pointer;
     text-decoration: none;
-    color: #7A3B69;
+    color: #6D326D;
 }
 
 .imageContainer {
@@ -53,11 +53,11 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    padding: 0.5rem;
+    padding: 0.25rem;
     gap: 1rem;
     background-color: #F6F5AE;
-    /* border-bottom: 2px rgba(0, 0, 0, 0.1) solid;
-    border-top: 2px rgba(0, 0, 0, 0.1) solid; */
+    /* border-bottom: 2px rgba(0, 0, 0, 0.1) solid; */
+    /* border-top: 2px rgba(0, 0, 0, 0.1) solid; */
     z-index: 20;
 }
 
@@ -109,9 +109,12 @@
 .link {
     text-decoration: none;
     padding: 0.5rem;
-    color: #7A3B69;
-    font-weight: 600;
-    font-size: medium;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    color: #6D326D;
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1.5rem;
 }
 
 
