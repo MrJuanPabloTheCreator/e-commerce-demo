@@ -13,7 +13,7 @@ export interface Product {
     stock: number;
     stock_updated: string;
     price: number;
-    discount: string;
+    discount: number;
     image_url: string;
     created_at: string;
     updated_at: string;

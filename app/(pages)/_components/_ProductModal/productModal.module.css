@@ -39,7 +39,7 @@
     gap: 0.5rem;
 }
 
-.productDetails button {
+.productDetailsExit {
     position: absolute;
     top: 0.5rem;
     right: 0.5rem;
@@ -50,7 +50,7 @@
     border: none;
     background-color: transparent;
 }
-.productDetails button:hover {
+.productDetailsExit:hover {
     background-color: rgba(0, 0, 0, 0.1);
 }
 
@@ -65,4 +65,9 @@
     width: 0.5rem;
     border-radius: 1rem;
     border: 1px black solid;
+}
+
+.productPrice {
+    display: flex;
+    gap: 0.5rem;
 }

@@ -18,19 +18,24 @@ const ProductModal:React.FC<ProductCardProps> = ({product, setActiveProductModal
                     <Image src={product.image_url} alt="Product Image" fill className={styles.productImage}/>
                 </div>
                 <section className={styles.productDetails}>
-                    <button onClick={() => setActiveProductModal(null)}>
-                        <X size={20}/>
-                    </button>
-                    <h2>{product.product_name}</h2>
-                    <strong>${product.price}</strong>
-                    <p>{product.description}</p>
+                    <h3>{product.description}</h3>
+                    <div className={styles.productPrice}>
+                        {product.discount > 0 && <strong style={product.discount > 0 ? { color: 'red'}:{}}>${(product.price * (1 - product.discount/100)).toFixed(2)}</strong>}
+                        <strong style={product.discount > 0 ? { textDecoration: 'line-through', color: 'rgb(155, 155, 155)'}:{}}>${product.price}</strong>
+                    </div>
+                    <p>by {product.product_name}</p>
                     <div className={styles.colorPreview}>
                         <p>color</p>
                         <span style={{backgroundColor: product.color_id}} className={styles.productColor}/>
                     </div>
                     <p>Units Left: {product.stock}</p>
+
+                    <button>Add to cart</button>
                     
                 </section>
+                <button className={styles.productDetailsExit} onClick={() => setActiveProductModal(null)}>
+                    <X size={20}/>
+                </button>
             </div>
         </div>
     )

@@ -1,3 +1,4 @@
+import Footer from "./_components/_Footer/footer";
 import PagesNavbar from "./_components/_Navbar/pagesNavbar";
 import styles from "./layout.module.css"
 
@@ -11,6 +12,7 @@ const PagesLayout = ({
     <main>
         <PagesNavbar/>
         {children}
+        <Footer/>
     </main>
   )
 }

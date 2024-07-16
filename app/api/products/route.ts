@@ -4,6 +4,11 @@ const db = require('@/db');
 
 export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
+    let offset = '0';
+    const updatedOffset = searchParams.get('page');
+    if(updatedOffset){
+        offset = updatedOffset;
+    }
     const category = searchParams.get('c');
     const specie = searchParams.get('specie')
     const colors = searchParams.get('colors');
@@ -52,7 +57,8 @@ export async function GET(req: NextRequest) {
             query += colorFilter;
             values.push(...colorsArray);
         }
-        if(category){ 
+        if(category && category !== 'null'){ 
+            console.log('here')
             const categoriesArray = category.split(',');
             let categoryFilter = ` ${colors ? 'AND' : 'WHERE'} (` + categoriesArray.map(() => `c.category_id = ?`).join(' OR ') + `)`;
             query += categoryFilter;
@@ -64,11 +70,12 @@ export async function GET(req: NextRequest) {
             values.push(specie);
         }
 
-        query += `;`
+        const limit = 10;
+        query += ` LIMIT ${limit} OFFSET ${offset};`;
         console.log(query, values)
         const [productsResult] = await connection.query(query, values)
 
-        console.log(productsResult)
+        // console.log(productsResult)
         await connection.commit();
         return new NextResponse(JSON.stringify({ success: true, products: productsResult}), { status: 200 });
 

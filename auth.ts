@@ -1,9 +1,21 @@
 var bcrypt = require('bcryptjs');
-import NextAuth from "next-auth";
+import NextAuth, { type DefaultSession } from "next-auth";
 import Google from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials"
 import { LoginSchema } from "./schemas/authSchema";
 import toast from "react-hot-toast";
+
+declare module "next-auth" {
+  interface Session {
+    user: {
+      role: string
+    } & DefaultSession["user"]
+  }
+
+  interface User {
+    role: string;
+  }
+}
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
@@ -67,6 +79,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return false;
         }
         user.id = existingUser.user_id;
+        user.role = existingUser.role;
       } else {
         //Insert user into DB using Google Info
         const newUser = await fetch('http://localhost:3000/api/users', {
@@ -91,18 +104,20 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return false;
         }
       }
-
+      console.log(user)
       return true;
     },
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id as string;
+        token.role = user.role;
       }
       // console.log('-----------Token-----------',token)
       return token;
     },
     async session({ session, token }) {
       session.user.id = token.id as string;
+      session.user.role = token.role as string;
       // console.log('-----------Session-----------',session)
       return session;
     },

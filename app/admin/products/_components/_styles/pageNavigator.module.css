@@ -1,0 +1,41 @@
+.pagesNavigatorContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.navigatorContent {
+    width: 40%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.navigatorContentButton {
+    padding: 0.5rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    cursor: pointer;
+    background-color: black;
+    color: white;
+    border-radius: 0.5rem;
+    border: none;
+}
+
+.navigatorContentNumbers {
+    height: 2rem;
+    width: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 1rem;
+    border: none;
+}
+.navigatorContentNumbers:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.numberContainer {
+    display: flex;
+    gap: 0.25rem;
+}

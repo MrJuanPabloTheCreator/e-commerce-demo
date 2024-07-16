@@ -72,7 +72,7 @@ const ProductsListing = () => {
           <li>Color</li>
           <li>Stock</li>
           <li>Price</li>
-          <li>Discount</li>
+          <li>Discount %</li>
         </ul>
         <span/>
       </div>
@@ -89,7 +89,7 @@ const ProductsListing = () => {
             <li>{product.color_label}</li>
             <li>{product.stock}</li>
             <li>${product.price}</li>
-            <li>{product.discount}</li>
+            <li>{product.discount}%</li>
           </ul>
           <button className={styles.actionsButton} onClick={() => setActionDropdown(actionDropdown === product.product_id ? null : product.product_id)}>
             <EllipsisVertical size={20}/>

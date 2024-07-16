@@ -105,7 +105,7 @@
     gap: 1rem;
 }
 
-.link {
+.categories button {
     text-decoration: none;
     padding: 0.5rem;
     padding-left: 0.75rem;
@@ -114,6 +114,13 @@
     font-weight: 700;
     font-size: 1rem;
     line-height: 1.5rem;
+    cursor: pointer;
+    border-radius: 1.5rem;
+    border: none;
+    background-color: transparent;
+}
+.categories button:hover {
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
 .shoppingCart {

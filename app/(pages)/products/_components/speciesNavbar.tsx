@@ -30,7 +30,7 @@ const SpeciesNavbar = () => {
             {species.map((specie, index) => 
                 <button 
                     className={styles.specieCard} 
-                    onClick={() => activeSpecie === specie.name ? setActiveSpecie(null):setActiveSpecie(specie.name)} 
+                    onClick={() => setActiveSpecie(activeSpecie === specie.name ? null: specie.name)} 
                     style={specieSelected === specie.name ? { backgroundColor: '#6D326D', color: 'white' } : { backgroundColor: 'rgba(0, 0, 0, 0.05)', color: '#6D326D' }}
                 >
                     <div key={index} className={styles.specieImageContainer}>
