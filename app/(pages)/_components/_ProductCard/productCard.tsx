@@ -5,6 +5,7 @@ import Image from "next/image";
 import styles from "./productCard.module.css"
 import { useState } from "react";
 import ProductModal from "../_ProductModal/productModal";
+import SaveItemButton from "../_SaveItemButton/saveItemButton";
 
 interface ProductCardProps {
     product: Product;
@@ -15,6 +16,7 @@ const ProductCard:React.FC<ProductCardProps> = ({product}) => {
 
     return (
         <div className={styles.cardContainer}>
+            <SaveItemButton productId={product.product_id} isSaved={product.is_saved}/>
             <button className={styles.productImageContainer} onClick={() => setActiveProductModal(product.product_id)}>
                 <Image src={product.image_url} alt="Product Image" fill className={styles.productImage}/>
             </button>

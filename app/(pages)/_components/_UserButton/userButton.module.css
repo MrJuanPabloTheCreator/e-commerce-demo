@@ -6,18 +6,17 @@
 }
 
 .button {
-    width: 2rem; /* 8 * 0.25rem */
-    height: 2rem; /* 8 * 0.25rem */
     position: relative;
+    display: flex;
+    color: black;
+    border: none;
+    background-color: transparent;
 }
 
 .profileImage {
     border-radius: 50%;
     overflow: hidden;
-}
-
-.defaultProfileIcon {
-    color: #d1d5db; /* Example color, replace with actual color code if needed */
+    object-fit: contain;
 }
 
 .signInButton {
@@ -26,64 +25,34 @@
 }
 
 .modal {
-    display: flex;
-    flex-direction: column;
-    width: 15rem; /* 60 * 0.25rem */
-    gap: 0.125rem; /* 2 * 0.125rem */
-    border: 2px solid rgba(255, 255, 255, 0.1);
     position: absolute;
     top: 100%;
+    display: flex;
+    flex-direction: column;
+    width: 15rem;
+    gap: 0.125rem;
     right: 0;
-    background-color: #1f2937; /* Example dark color, replace with actual color code if needed */
+    background-color: rgb(150, 150, 150);
+    border: 2px rgb(150, 150, 150) solid;
     border-radius: 0.375rem;
     overflow: hidden;
 }
 
 .modalButton {
+    position: relative;
     display: flex;
     align-items: center;
-    gap: 0.25rem; /* 1 * 0.25rem */
-    padding: 0.5rem; /* 2 * 0.25rem */
+    gap: 0.5rem;
+    padding: 0.5rem;
+    border: none;
+    background-color: white;
 }
-
 .modalButton:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.modalImageContainer {
-    width: 2rem; /* 8 * 0.25rem */
-    height: 2rem; /* 8 * 0.25rem */
-    position: relative;
+    background-color: rgb(230, 230, 230);
 }
 
 .profileDetails {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: -0.25rem; /* -4 * 0.25rem */
-}
-
-.profileName {
-    color: #ffffff; /* Example white color, replace with actual color code if needed */
-}
-
-.profileEmail {
-    font-size: 0.875rem; /* 14px */
-    color: rgba(255, 255, 255, 0.4);
-}
-
-.signOutButton {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem; /* 1 * 0.25rem */
-    padding: 0.75rem 0.5rem; /* 3 * 0.25rem, 2 * 0.25rem */
-}
-
-.signOutIcon {
-    color: #d1d5db; /* Example color, replace with actual color code if needed */
-}
-
-.signOutText {
-    font-size: 0.875rem; /* 14px */
-    color: #ffffff; /* Example white color, replace with actual color code if needed */
 }

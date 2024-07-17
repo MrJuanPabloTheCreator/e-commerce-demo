@@ -58,7 +58,6 @@ export async function GET(req: NextRequest) {
             values.push(...colorsArray);
         }
         if(category && category !== 'null'){ 
-            console.log('here')
             const categoriesArray = category.split(',');
             let categoryFilter = ` ${colors ? 'AND' : 'WHERE'} (` + categoriesArray.map(() => `c.category_id = ?`).join(' OR ') + `)`;
             query += categoryFilter;
@@ -72,7 +71,7 @@ export async function GET(req: NextRequest) {
 
         const limit = 10;
         query += ` LIMIT ${limit} OFFSET ${offset};`;
-        console.log(query, values)
+        // console.log(query, values)
         const [productsResult] = await connection.query(query, values)
 
         // console.log(productsResult)

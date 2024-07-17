@@ -25,14 +25,15 @@ const PagesNavbar = () => {
 
   useEffect(() => {
       const params = new URLSearchParams(searchParams.toString());
-      params.set("c", String(activeNav));
-      router.push(`/products?${params}`)
+      if(activeNav){
+        params.set("c", String(activeNav));
+        router.push(`/products?${params}`)
+      }
   }, [activeNav])
 
   const handleGetSession = async () => {
     const updatedSession = await getSession();
     setSession(updatedSession)
-    console.log(updatedSession)
   }
 
   useEffect(() => {
@@ -58,9 +59,11 @@ const PagesNavbar = () => {
           <Search />
         </div>
         <div className={styles.rightSideTopNav}>
-          <Heart size={24}/>
+          <button className={styles.rightNavButton} onClick={() => router.push('/saved-items')}>
+            <Heart size={24}/>
+          </button>
           <UserButton user={session?.user}/>
-          <button className={styles.shoppingCart} onClick={() => setActiveAction(activeAction === 'cart' ? null : 'cart')}>
+          <button className={styles.rightNavButton} onClick={() => setActiveAction(activeAction === 'cart' ? null : 'cart')}>
             <ShoppingCart size={24}/>
           </button>
           {activeAction === 'cart' && <CartDropdown />}

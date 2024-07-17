@@ -10,9 +10,11 @@ const PagesLayout = ({
 
   return (
     <main>
+      <section className={styles.content}>
         <PagesNavbar/>
         {children}
-        <Footer/>
+      </section>
+      <Footer/>
     </main>
   )
 }

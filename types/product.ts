@@ -17,4 +17,5 @@ export interface Product {
     image_url: string;
     created_at: string;
     updated_at: string;
+    is_saved: any;
 }

@@ -30,9 +30,9 @@ export default function UserButton({ user }: UserButtonProps) {
                 >
                     {user?.image != null ?
                         (
-                            <Image src={user?.image} alt="profile photo" fill className={styles.profileImage}/>
+                            <Image src={user?.image} alt="profile photo" height={24} width={24} className={styles.profileImage}/>
                         ):(
-                            <CircleUserRound size={32} className={styles.defaultProfileIcon}/>
+                            <CircleUserRound size={24}/>
                         )
                     }
                 </button>
@@ -41,7 +41,7 @@ export default function UserButton({ user }: UserButtonProps) {
                     onClick={() => signIn()}
                     className={styles.signInButton}
                 >
-                    <CircleUserRound size={32} className={styles.defaultProfileIcon}/>
+                    <CircleUserRound size={24}/>
                 </button>
             )}
             {activateModal && (
@@ -49,29 +49,27 @@ export default function UserButton({ user }: UserButtonProps) {
                     className={styles.modal} 
                 >
                     <button 
-                        onClick={() => router.push(`/myteams/users/${user?.id}`)}
                         className={styles.modalButton}
                     >
-                        <div className={styles.modalImageContainer}>
-                            {user?.image != null ?
-                                (
-                                    <Image src={user?.image} alt="profile photo" fill className={styles.profileImage}/>
-                                ):(
-                                    <CircleUserRound size={32} className={styles.defaultProfileIcon}/>
-                                )
-                            }
-                        </div>
+                        {user?.image != null ?
+                            (
+                                <Image src={user?.image} alt="profile photo" height={36} width={36} className={styles.profileImage}/>
+                            ):(
+                                <CircleUserRound size={36}/>
+                            )
+                        }
                         <div className={styles.profileDetails}>
-                            <h2 className={styles.profileName}>Profile</h2>
-                            <h3 className={styles.profileEmail}>{user?.name}</h3>
+                            <h3>Profile</h3>
+                            <h4>{user?.name}</h4>
                         </div>
                     </button>
                     <button 
                         onClick={() => signOut({ callbackUrl: '/home' })}
-                        className={styles.signOutButton}
+                        className={styles.modalButton}
+                        style={{cursor: 'pointer'}}
                     >   
-                        <LogOut size={24} className={styles.signOutIcon}/>
-                        <h2 className={styles.signOutText}>Sign Out</h2>
+                        <LogOut size={24}/>
+                        <h3>Sign Out</h3>
                     </button>
                 </div>
             )}
