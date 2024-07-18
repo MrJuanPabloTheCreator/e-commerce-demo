@@ -1,17 +1,18 @@
 "use client"
 
 import { CircleUserRound, Heart, Search, ShoppingCart, SlidersHorizontal } from "lucide-react"
-import styles from "./navbar.module.css"
 import { useEffect, useState } from "react"
-import Filter from "../_Filter/filter"
-import { categories } from "@/constants"
 import Link from "next/link"
 import Image from "next/image"
 import { useRouter, useSearchParams } from "next/navigation"
-import CartDropdown from "../_CartDropdown/cart"
-import UserButton from "../_UserButton/userButton"
 import { Session } from "next-auth"
 import { getSession } from "next-auth/react"
+
+import UserButton from "../_UserButton/userButton"
+import Cart from "../_Cart/cart"
+import Filter from "../_Filter/filter"
+import { categories } from "@/constants"
+import styles from "./navbar.module.css"
 
 const PagesNavbar = () => {
   const [session, setSession] = useState<Session | null>(null)
@@ -62,11 +63,8 @@ const PagesNavbar = () => {
           <button className={styles.rightNavButton} onClick={() => router.push('/saved-items')}>
             <Heart size={24}/>
           </button>
-          <UserButton user={session?.user}/>
-          <button className={styles.rightNavButton} onClick={() => setActiveAction(activeAction === 'cart' ? null : 'cart')}>
-            <ShoppingCart size={24}/>
-          </button>
-          {activeAction === 'cart' && <CartDropdown />}
+          <UserButton user={session?.user} setActiveAction={setActiveAction} activeAction={activeAction}/>
+          <Cart setActiveAction={setActiveAction} activeAction={activeAction}/>
         </div>
       </section>
 

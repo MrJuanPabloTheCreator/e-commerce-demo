@@ -10,10 +10,11 @@ import styles from './userButton.module.css';
 
 interface UserButtonProps {
     user: User | undefined;
+    activeAction: string | null;
+    setActiveAction: (action: string | null) => void;
 }
 
-export default function UserButton({ user }: UserButtonProps) {
-    const [activateModal, setActivateModal] = useState<boolean>(false)
+export default function UserButton({ user, activeAction, setActiveAction }: UserButtonProps) {
 
     const router = useRouter();
 
@@ -21,12 +22,16 @@ export default function UserButton({ user }: UserButtonProps) {
 
     },[user])
 
+    const handleToggle = () => {
+        setActiveAction(activeAction === 'user' ? null : 'user');
+    };
+    
     return (
         <div className={styles.container}>
             {user !== undefined ? (
                 <button 
                     className={styles.button} 
-                    onClick={() => setActivateModal(!activateModal)}
+                    onClick={handleToggle}
                 >
                     {user?.image != null ?
                         (
@@ -44,7 +49,7 @@ export default function UserButton({ user }: UserButtonProps) {
                     <CircleUserRound size={24}/>
                 </button>
             )}
-            {activateModal && (
+            {activeAction === 'user' && (
                 <div 
                     className={styles.modal} 
                 >

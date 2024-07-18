@@ -1,5 +1,6 @@
 import Footer from "./_components/_Footer/footer";
 import PagesNavbar from "./_components/_Navbar/pagesNavbar";
+import { CartProvider } from "./_context/CartContext";
 import styles from "./layout.module.css"
 
 const PagesLayout = ({
@@ -10,10 +11,12 @@ const PagesLayout = ({
 
   return (
     <main>
-      <section className={styles.content}>
-        <PagesNavbar/>
-        {children}
-      </section>
+      <CartProvider>
+        <section className={styles.content}>
+          <PagesNavbar/>
+          {children}
+        </section>
+      </CartProvider>
       <Footer/>
     </main>
   )
