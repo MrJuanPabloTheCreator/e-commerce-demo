@@ -1,55 +1,82 @@
 "use client"
 
 import { CartItem } from '@/types/cartItem';
+import { Session } from 'next-auth';
+import { getSession } from 'next-auth/react';
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 interface CartContextType {
-  cart: CartItem[];
+  cartItems: Map<string, CartItem>;
   addToCart: (item: CartItem) => void;
   removeFromCart: (id: string) => void;
   clearCart: () => void;
+  isItemInCart: (id: string) => boolean;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const [session, setSession] = useState<Session | null>(null)
+  const [cartItems, setCartItems] = useState<Map<string, CartItem>>(new Map());
+
+  const handleGetSession = async () => {
+    const updatedSession = await getSession();
+    setSession(updatedSession)
+  }
+
+  const initializeCart = async () => {
+    const storedCart = localStorage.getItem('cart');
+    await handleGetSession();
+    if(storedCart) {
+      setCartItems(new Map(JSON.parse(storedCart)));
+    } else if(!storedCart && session?.user.id){
+      
+    }
+  };
 
   useEffect(() => {
-    const storedCart = localStorage.getItem('cart');
-    if (storedCart) {
-      setCart(JSON.parse(storedCart));
-    }
+    initializeCart();
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cart));
-  }, [cart]);
+    localStorage.setItem('cart', JSON.stringify(Array.from(cartItems.entries())));
+    console.log(cartItems)
+  }, [cartItems]);
 
   const addToCart = (item: CartItem) => {
-    setCart((prevCart) => {
-      const existingItem = prevCart.find((cartItem) => cartItem.product_id === item.product_id);
+    setCartItems((prevCartItems) => {
+      const newCartItems = new Map(prevCartItems);
+      const existingItem = newCartItems.get(item.product_id);
+
       if (existingItem) {
-        return prevCart.map((cartItem) =>
-          cartItem.product_id === item.product_id
-            ? { ...cartItem, quantity: cartItem.quantity + item.quantity }
-            : cartItem
-        );
+        existingItem.quantity += item.quantity;
+      } else {
+        newCartItems.set(item.product_id, item);
       }
-      return [...prevCart, item];
+
+      return newCartItems;
     });
   };
 
-  const removeFromCart = (id: string) => {
-    setCart((prevCart) => prevCart.filter((item) => item.product_id !== id));
-  };
+    const removeFromCart = (id: string) => {
+      setCartItems((prevCartItems) => {
+        const newCartItems = new Map(prevCartItems);
+        newCartItems.delete(id);
+        return newCartItems;
+      });
+    };
+    
+    const clearCart = () => {
+      setCartItems(new Map());
+      localStorage.removeItem('cart');
+    };
 
-  const clearCart = () => {
-    setCart([]);
+  const isItemInCart = (id: string) => {
+    return cartItems.has(id);
   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart }}>
+    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart, isItemInCart }}>
       {children}
     </CartContext.Provider>
   );

@@ -4,6 +4,7 @@ import styles from "./cart.module.css"
 import { useCart } from "../../_context/CartContext";
 import { ShoppingCart, Trash2 } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
 
 interface CartProps {
   setActiveAction: (action: string | null) => void;
@@ -11,15 +12,17 @@ interface CartProps {
 }
 
 const Cart:React.FC<CartProps> = ({ setActiveAction, activeAction}) => {
-  const { cart, addToCart, removeFromCart } = useCart();
+  const { cartItems, addToCart, removeFromCart } = useCart();
   
   const handleToggle = () => {
     setActiveAction(activeAction === 'cart' ? null : 'cart');
   };
 
+  const cartItemsArray = Array.from(cartItems.values());
+
   const calculateSubtotal = () => {
     let total = 0;
-    cart.map((item) => 
+    cartItemsArray.map((item) => 
       total += item.price * (1 - item.discount/100)
     )
     return total;
@@ -34,7 +37,7 @@ const Cart:React.FC<CartProps> = ({ setActiveAction, activeAction}) => {
         <div className={styles.dropdownContainer}>
           <h3 className={styles.dropdownHeader}>My Cart</h3>
           <div className={styles.productsContent}>
-            {cart.map((item, index) => (
+            {cartItemsArray.length > 0 ? cartItemsArray.map((item, index) => (
               <div key={index} className={styles.cartItemContainer}>
                 <div className={styles.imageContainer}>
                   <Image src={item.image_url} alt={"Image"} fill style={{objectFit: 'contain'}}/>
@@ -51,12 +54,18 @@ const Cart:React.FC<CartProps> = ({ setActiveAction, activeAction}) => {
                   <Trash2 size={20}/>
                 </button>
               </div>
-            ))}
+            )): 
+              <div>
+                No products in your cart
+              </div>
+            }
           </div>
-          <div className={styles.subtotalContainer}>
-            <p>Sub-Total (excluding sales tax)</p>
-            <strong>${calculateSubtotal().toFixed(2)}</strong>
-          </div>
+          {cartItemsArray.length > 0 &&
+            <div className={styles.subtotalContainer}>
+              <p>Sub-Total (excluding sales tax)</p>
+              <strong>${calculateSubtotal().toFixed(2)}</strong>
+            </div>
+          }
           <div className={styles.actionsContainer}>
             <Link className={styles.actionButton} href={'/cart'}>Go to cart</Link>
             <Link className={styles.actionButton} href={'/checkout'}>Checkout</Link>

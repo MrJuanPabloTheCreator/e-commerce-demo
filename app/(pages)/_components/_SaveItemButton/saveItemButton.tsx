@@ -19,7 +19,7 @@ const SaveItemButton:React.FC<SavedItemButtonProps> = ({productId, isSaved}) => 
     const updatedSession = await getSession();
     if(updatedSession?.user.id){
       if(!saved){
-        const saveItemResponse = await fetch(`/api/saved-items/${updatedSession?.user.id}`, {
+        const saveItemResponse = await fetch(`/api/user/${updatedSession?.user.id}/saved-items`, {
           method: 'POST',
           body: JSON.stringify({productId})
         })
@@ -30,7 +30,7 @@ const SaveItemButton:React.FC<SavedItemButtonProps> = ({productId, isSaved}) => 
           toast.error('Couldnt save')
         }
       } else {
-        const saveItemResponse = await fetch(`/api/saved-items/${updatedSession?.user.id}`, {
+        const saveItemResponse = await fetch(`api/user/${updatedSession?.user.id}/saved-items`, {
           method: 'DELETE',
           body: JSON.stringify({productId})
         })

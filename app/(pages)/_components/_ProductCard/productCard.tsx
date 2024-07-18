@@ -14,8 +14,8 @@ interface ProductCardProps {
 
 const ProductCard:React.FC<ProductCardProps> = ({product}) => {
     const [activeProductModal, setActiveProductModal] = useState<string | null>(null)
-    const { cart, addToCart, removeFromCart } = useCart();
-    const [itemInCart, setItemInCart] = useState(false)
+    const { cartItems, addToCart, removeFromCart, isItemInCart } = useCart();
+    // const [itemInCart, setItemInCart] = useState(false)
 
     const handleRemoveFromCart = () => {
         removeFromCart(product.product_id)
@@ -25,10 +25,10 @@ const ProductCard:React.FC<ProductCardProps> = ({product}) => {
         addToCart({ ...product, quantity: 1 });
     };
 
-    useEffect(() => {
-        const existingItem = cart.some((cartItem) => cartItem.product_id === product.product_id);
-        setItemInCart(existingItem)
-    },[cart, product.product_id])
+    // useEffect(() => {
+    //     const existingItem = cart.some((cartItem) => cartItem.product_id === product.product_id);
+    //     setItemInCart(existingItem)
+    // },[cart, product.product_id])
 
     return (
         <div className={styles.cardContainer}>
@@ -41,7 +41,7 @@ const ProductCard:React.FC<ProductCardProps> = ({product}) => {
                 {product.discount > 0 && <strong style={product.discount > 0 ? { color: 'red'}:{}}>${(product.price * (1 - product.discount/100)).toFixed(2)}</strong>}
                 <strong style={product.discount > 0 ? { textDecoration: 'line-through', color: 'rgb(155, 155, 155)'}:{}}>${product.price}</strong>
             </div>
-            {itemInCart ? <button onClick={handleRemoveFromCart}>Added</button> : <button onClick={handleAddToCart}>Add to Cart</button>}
+            {isItemInCart(product.product_id) ? <button onClick={handleRemoveFromCart}>Added</button> : <button onClick={handleAddToCart}>Add to Cart</button>}
             {activeProductModal === product.product_id && <ProductModal product={product} setActiveProductModal={setActiveProductModal}/>}
         </div>
     )

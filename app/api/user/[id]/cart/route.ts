@@ -9,10 +9,10 @@ interface Params {
 
 export async function POST(req: NextRequest, { params }: Params, res: NextResponse) {
     const connection = await db.getConnection();
-    console.log('USING connection in POST saved-items/id threadId:', connection.threadId);
+    console.log('USING connection in POST user/id/cart threadId:', connection.threadId);
 
     const { id } = params;
-    const { productId } = await req.json();
+    const { productId, quantity } = await req.json();
 
     if(!id || !productId){
         return NextResponse.json({ success: false, error: 'No credentials' }, { status: 401 });
@@ -22,9 +22,9 @@ export async function POST(req: NextRequest, { params }: Params, res: NextRespon
         await connection.beginTransaction();
 
         const [saveItemQuery] = await connection.query(`
-            INSERT INTO user_products (user_id, product_id)
-            VALUES (?, ?);`, 
-            [id, productId]
+            INSERT INTO user_cart (user_id, product_id, quantity)
+            VALUES (?, ?, ?);`, 
+            [id, productId, quantity]
         );
 
         if(saveItemQuery.affectedRows > 0){
@@ -39,14 +39,14 @@ export async function POST(req: NextRequest, { params }: Params, res: NextRespon
         return NextResponse.json({ success: false, error: error.message }, { status: 500 });
 
     } finally {
-        console.log('RELEASING connection in POST saved-items/id threadId:', connection.threadId);
+        console.log('RELEASING connection in POST user/id/cart threadId:', connection.threadId);
         connection.release();
     }
 }
 
 export async function GET(req: NextRequest, { params }: Params, res: NextResponse) {
     const connection = await db.getConnection();
-    console.log('USING connection in GET saved-items/id threadId:', connection.threadId);
+    console.log('USING connection in GET user/id/cart threadId:', connection.threadId);
 
     const { id } = params;
 
@@ -73,7 +73,7 @@ export async function GET(req: NextRequest, { params }: Params, res: NextRespons
                 p.image_url,
                 p.created_at,
                 p.updated_at,
-                CASE WHEN up.product_id IS NOT NULL THEN 1 ELSE 0 END as is_saved
+                uc.quantity
             from products p 
             inner join categories c
             on p.category_id = c.category_id
@@ -81,8 +81,8 @@ export async function GET(req: NextRequest, { params }: Params, res: NextRespons
             on p.product_id = ps.product_id
             left join colors co
             on ps.color_id = co.color_id
-            left join user_products up
-            on up.product_id = p.product_id
+            join user_cart uc
+            on uc.product_id = p.product_id
             WHERE up.user_id = ?;`, 
             [id]
         );
@@ -95,40 +95,7 @@ export async function GET(req: NextRequest, { params }: Params, res: NextRespons
         return NextResponse.json({ success: false, error: error.message }, { status: 500 });
 
     } finally {
-        console.log('RELEASING connection in GET saved-items/id threadId:', connection.threadId);
-        connection.release();
-    }
-}
-
-export async function DELETE(req: NextRequest, { params }: Params, res: NextResponse) {
-    const connection = await db.getConnection();
-    console.log('USING connection in DELETE saved-items/id threadId:', connection.threadId);
-
-    const { id } = params;
-    const { productId } = await req.json();
-
-    try {
-        await connection.beginTransaction();
-
-        const [deleteSavedItemQuery] = await connection.query(`
-            DELETE from user_products
-            WHERE user_id = ? AND product_id = ?;`, 
-            [id, productId]
-        );
-
-        if(deleteSavedItemQuery.affectedRows > 0){
-            await connection.commit();
-            return new NextResponse(JSON.stringify({ success: true }), { status: 200 });
-        } else {
-            throw new Error('Unable to delete item from saved products')
-        }
-
-    } catch (error:any) {
-        await connection.rollback();
-        return NextResponse.json({ success: false, error: error.message }, { status: 500 });
-
-    } finally {
-        console.log('RELEASING connection in DELETE saved-items/id threadId:', connection.threadId);
+        console.log('RELEASING connection in GET user/id/cart threadId:', connection.threadId);
         connection.release();
     }
 }

@@ -11,10 +11,10 @@ import { Product } from "@/types";
 const SavedItemsPage = () => {
     const [savedItems, setSavedItems] = useState<Product[]>([])
     const [session, setSession] = useState<Session | null>(null)
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     const fetchSavedItems = async (userId: string) => {
-        const savedItems = await fetch(`/api/saved-items/${userId}`)
+        const savedItems = await fetch(`/api/user/${userId}/saved-items`)
         const { success, items, error } = await savedItems.json();
         if(success){
             setSavedItems(items)
@@ -26,15 +26,14 @@ const SavedItemsPage = () => {
     const handleGetSession = async () => {
         const updatedSession = await getSession();
         if(updatedSession?.user.id){
-            fetchSavedItems(updatedSession?.user.id);
+            await fetchSavedItems(updatedSession?.user.id);
             setSession(updatedSession);
         }
+        setLoading(false)  
     }
     
     useEffect(() => {
-        setLoading(true)
         handleGetSession();   
-        setLoading(false)  
     }, []);
 
     if(loading){

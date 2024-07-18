@@ -17,7 +17,6 @@ import styles from "./navbar.module.css"
 const PagesNavbar = () => {
   const [session, setSession] = useState<Session | null>(null)
   const [activeAction, setActiveAction] = useState<string | null>(null)
-  const [displayFilters, setDisplayFilters] = useState(false)
   const [activeNav, setActiveNav] = useState<number | null>(null)
 
   const router = useRouter();
@@ -76,15 +75,6 @@ const PagesNavbar = () => {
             </button>
           )}
         </nav>
-        {/* <button className={styles.filterToggleButton} onClick={() => setDisplayFilters(!displayFilters)}>
-          {displayFilters ? 'Hide Filters':'Show Filters'}
-          <SlidersHorizontal size={20} />
-        </button> */}
-        {displayFilters && (
-          <div className={styles.filtersContainer}>
-            <Filter/>
-          </div>
-        )}
       </section>
 
     </div>

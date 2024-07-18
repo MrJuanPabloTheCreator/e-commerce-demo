@@ -16,7 +16,7 @@ const ProductListing = () => {
         const updatedSession = await getSession();
         if(updatedSession?.user.id){
             console.log('user products')
-            const filteredProducts = await fetch(`/api/auth_user_products/${updatedSession.user.id}?${searchParamsUrl}`)
+            const filteredProducts = await fetch(`/api/user/${updatedSession.user.id}/products?${searchParamsUrl}`)
             const { success, products, error } = await filteredProducts.json()
             if(success){
                 console.log(products)
