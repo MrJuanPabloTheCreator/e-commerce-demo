@@ -40,6 +40,7 @@ export default function UserButton({ user, activeAction, setActiveAction }: User
                             <CircleUserRound size={24}/>
                         )
                     }
+                    <p className={styles.rightNavP}>Your Account</p>
                 </button>
             ) : (
                 <button
@@ -47,6 +48,7 @@ export default function UserButton({ user, activeAction, setActiveAction }: User
                     className={styles.signInButton}
                 >
                     <CircleUserRound size={24}/>
+                    <p className={styles.rightNavP}>Sign In</p>
                 </button>
             )}
             {activeAction === 'user' && (

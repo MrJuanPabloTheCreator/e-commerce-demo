@@ -6,49 +6,28 @@ import { getSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { FaHeart } from 'react-icons/fa'
+import { useSavedItems } from '../../_context/SavedContext'
 
 interface SavedItemButtonProps {
   productId: string
-  isSaved: any;
 }
 
-const SaveItemButton:React.FC<SavedItemButtonProps> = ({productId, isSaved}) => {
-  const [saved, setSaved] = useState<boolean>(isSaved)
+const SaveItemButton:React.FC<SavedItemButtonProps> = ({ productId }) => {
+  const { isItemSaved, addToSavedItems, removeFromSavedItems } = useSavedItems();
+
+
 
   const handleSaveItem = async () => {
-    const updatedSession = await getSession();
-    if(updatedSession?.user.id){
-      if(!saved){
-        const saveItemResponse = await fetch(`/api/user/${updatedSession?.user.id}/saved-items`, {
-          method: 'POST',
-          body: JSON.stringify({productId})
-        })
-        const { success } = await saveItemResponse.json()
-        if(success){
-          setSaved(true)
-        } else {
-          toast.error('Couldnt save')
-        }
-      } else {
-        const saveItemResponse = await fetch(`api/user/${updatedSession?.user.id}/saved-items`, {
-          method: 'DELETE',
-          body: JSON.stringify({productId})
-        })
-        const { success } = await saveItemResponse.json()
-        if(success){
-          setSaved(false)
-        } else {
-          toast.error('Couldnt unsave')
-        }
-      }
+    if(!isItemSaved(productId)){
+      addToSavedItems(productId)
     } else {
-      // No user save local storage
+      removeFromSavedItems(productId)
     }
   }
 
   return (
     <button onClick={handleSaveItem} className={styles.buttonContainer}>
-      {saved ? <FaHeart size={24} style={{ color: 'red' }}/>:
+      {isItemSaved(productId) ? <FaHeart size={24} style={{ color: 'red' }}/>:
       <Heart size={24} />}
     </button>
   )

@@ -7,6 +7,7 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 
 interface CartContextType {
   cartItems: Map<string, CartItem>;
+  updateItem: (item: CartItem) => void;
   addToCart: (item: CartItem) => void;
   removeFromCart: (id: string) => void;
   clearCart: () => void;
@@ -22,15 +23,53 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const handleGetSession = async () => {
     const updatedSession = await getSession();
     setSession(updatedSession)
+    return updatedSession;
   }
 
   const initializeCart = async () => {
     const storedCart = localStorage.getItem('cart');
-    await handleGetSession();
-    if(storedCart) {
-      setCartItems(new Map(JSON.parse(storedCart)));
-    } else if(!storedCart && session?.user.id){
-      
+    const updatedSession = await handleGetSession();
+    
+    if(storedCart && updatedSession?.user.id) {
+      // merge both data storages into db
+      const localCartItems = JSON.parse(storedCart);
+      const getCartResponse = await fetch(`/api/user/${updatedSession?.user.id}/cart`)
+      const { success, items: serverCartItems, error } = await getCartResponse.json()
+      console.log(success)
+      if (success) {
+        // Merge localCartItems and serverCartItems
+        const mergedCartItems = new Map();
+
+        // Add server items to mergedCartItems
+        serverCartItems.forEach((item: CartItem) => {
+          mergedCartItems.set(item.product_id, item);
+        });
+
+        // Add local items, merging quantities if item already exists
+        localCartItems.forEach((localItem: CartItem) => {
+            if (mergedCartItems.has(localItem.product_id)) {
+                const existingItem = mergedCartItems.get(localItem.product_id);
+                existingItem.quantity += localItem.quantity;
+            } else {
+                mergedCartItems.set(localItem.product_id, localItem);
+            }
+        });
+
+        setCartItems(mergedCartItems);
+        localStorage.removeItem('cart'); // Clear local storage after merging
+      }
+
+    } else if(!storedCart && updatedSession?.user.id){
+      const getCartResponse = await fetch(`/api/user/${updatedSession.user.id}/cart`)
+      const { success, items, error } = await getCartResponse.json()
+
+      if(success){
+        setCartItems(new Map(items.map((item: CartItem) => [item.product_id, item])));
+      }
+
+    } else if(storedCart && !updatedSession?.user.id){
+      // unauthenticated user
+      setCartItems(new Map(JSON.parse(storedCart).map((item: CartItem) => [item.product_id, item])));
     }
   };
 
@@ -39,35 +78,97 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(Array.from(cartItems.entries())));
+    if(!session?.user.id){
+      // update cart locally
+      localStorage.setItem('cart', JSON.stringify(Array.from(cartItems.entries())));
+    }
     console.log(cartItems)
   }, [cartItems]);
 
-  const addToCart = (item: CartItem) => {
-    setCartItems((prevCartItems) => {
-      const newCartItems = new Map(prevCartItems);
-      const existingItem = newCartItems.get(item.product_id);
+  const updateItem = async (item: CartItem) => {
+    const newCartItems = new Map(cartItems);
+    const existingItem = newCartItems.get(item.product_id);
 
-      if (existingItem) {
-        existingItem.quantity += item.quantity;
+    if(session?.user.id && existingItem){
+      // update in db
+      const removeItemResponse = await fetch(`/api/user/${session.user.id}/cart`, {
+        method: 'PATCH',
+        body: JSON.stringify({productId: item.product_id, quantity: item.quantity})
+      })
+      const { success, error } = await removeItemResponse.json()
+      if(success){
+        existingItem.quantity = item.quantity;
       } else {
-        newCartItems.set(item.product_id, item);
+        console.log('error updating item in db cart')
       }
+    } else if(existingItem) {
+      existingItem.quantity = item.quantity;
+    }
 
-      return newCartItems;
-    });
+    setCartItems(newCartItems)
+  }
+
+  const addToCart = async (item: CartItem) => {
+    const newCartItems = new Map(cartItems);
+
+      // post item into db
+    if(session?.user.id){
+      const postItemResponse = await fetch(`/api/user/${session.user.id}/cart`, {
+        method: 'POST',
+        body: JSON.stringify({productId: item.product_id, quantity: item.quantity})
+      })
+      const { success, error } = await postItemResponse.json()
+      if(success){
+        // set context only if insertiong was succesful
+        newCartItems.set(item.product_id, item);
+      } else {
+        console.log('error posting item into db cart')
+      }
+    } else {
+      newCartItems.set(item.product_id, item);
+    }
+
+    setCartItems(newCartItems)
   };
 
-    const removeFromCart = (id: string) => {
-      setCartItems((prevCartItems) => {
-        const newCartItems = new Map(prevCartItems);
-        newCartItems.delete(id);
-        return newCartItems;
-      });
+    const removeFromCart = async (id: string) => {
+      // if user then delete from db
+      if(session?.user.id){
+        const removeItemResponse = await fetch(`/api/user/${session.user.id}/cart`, {
+          method: 'DELETE',
+          body: JSON.stringify({productId: id})
+        })
+        const { success, error } = await removeItemResponse.json()
+        if(success){
+          console.log('removed')
+          setCartItems((prevCartItems) => {
+            const newCartItems = new Map(prevCartItems);
+            newCartItems.delete(id);
+            return newCartItems;
+          });
+        }
+      } else {
+        setCartItems((prevCartItems) => {
+          const newCartItems = new Map(prevCartItems);
+          newCartItems.delete(id);
+          return newCartItems;
+        });
+      }
     };
     
-    const clearCart = () => {
-      setCartItems(new Map());
+    const clearCart = async () => {
+      if(session?.user.id){
+        const removeItemResponse = await fetch(`/api/user/${session.user.id}/cart`, {
+          method: 'DELETE',
+        })
+        const { success, error } = await removeItemResponse.json()
+        if(success){
+          console.log('removed')
+          setCartItems(new Map());
+        }
+      } else {
+        setCartItems(new Map());
+      }
       localStorage.removeItem('cart');
     };
 
@@ -76,7 +177,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart, isItemInCart }}>
+    <CartContext.Provider value={{ cartItems, updateItem, addToCart, removeFromCart, clearCart, isItemInCart }}>
       {children}
     </CartContext.Provider>
   );

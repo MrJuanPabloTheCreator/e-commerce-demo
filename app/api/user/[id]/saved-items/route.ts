@@ -110,12 +110,19 @@ export async function DELETE(req: NextRequest, { params }: Params, res: NextResp
     try {
         await connection.beginTransaction();
 
-        const [deleteSavedItemQuery] = await connection.query(`
+        const values = [id]
+        let query = `
             DELETE from user_products
-            WHERE user_id = ? AND product_id = ?;`, 
-            [id, productId]
-        );
+            WHERE user_id = ?
+        `
 
+        if(productId){
+            query += ` AND product_id = ?`
+            values.push(productId)
+        }
+        query += `;`
+
+        const [deleteSavedItemQuery] = await connection.query(query, values);
         if(deleteSavedItemQuery.affectedRows > 0){
             await connection.commit();
             return new NextResponse(JSON.stringify({ success: true }), { status: 200 });

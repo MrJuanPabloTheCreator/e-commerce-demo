@@ -1,8 +1,32 @@
 
 .cartButton {
+    position: relative;
+    display: flex;
     border: none;
+    border-radius: 2rem;
     background-color: transparent;
     cursor: pointer;
+    padding: 0.5rem;
+    color: white;
+}
+.cartButton:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.cartItemsQuantity {
+    top: 0;
+    right: 0;
+    position: absolute;
+    padding: 0.25rem;
+    display: flex;
+    height: 1rem;
+    width: 1rem;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: white;
+    border-radius: 1rem;
+    background-color: red;
 }
 
 .dropdownContainer {
@@ -26,8 +50,9 @@
 
 .dropdownHeader {
     padding: 0.75rem 0.5rem;
-    background-color: #6D326D;
-    color: white;
+    background-color: #ffffff;
+    font-weight: 800;
+    color: #6D326D;
 }
 
 .cartItemContainer {

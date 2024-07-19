@@ -45,11 +45,11 @@ const PagesNavbar = () => {
 
       <section className={styles.topNavbarContainer}>
         <Link className={styles.leftSideTopNav} href={'/home'}>
-          <h1>Paw</h1>
+          <h1 style={{fontSize: '1.5rem'}}>Paw</h1>
           <div className={styles.imageContainer}>
-            <Image src={'/logo2.png'} alt="Store Logo" width={50} height={50} className={styles.logoImage}/>
+            <Image src={'/logo2.png'} alt="Store Logo" width={65} height={65} className={styles.logoImage}/>
           </div>
-          <h1>Paradise</h1>
+          <h1 style={{fontSize: '1.5rem'}}>Paradise</h1>
         </Link>
         <div className={styles.searchbar}>
           <input 
@@ -61,6 +61,7 @@ const PagesNavbar = () => {
         <div className={styles.rightSideTopNav}>
           <button className={styles.rightNavButton} onClick={() => router.push('/saved-items')}>
             <Heart size={24}/>
+            <p className={styles.rightNavP}>Saved Items</p>
           </button>
           <UserButton user={session?.user} setActiveAction={setActiveAction} activeAction={activeAction}/>
           <Cart setActiveAction={setActiveAction} activeAction={activeAction}/>

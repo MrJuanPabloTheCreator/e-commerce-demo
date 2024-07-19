@@ -4,7 +4,6 @@ import styles from "./cart.module.css"
 import { useCart } from "../../_context/CartContext";
 import { ShoppingCart, Trash2 } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
 
 interface CartProps {
   setActiveAction: (action: string | null) => void;
@@ -23,14 +22,17 @@ const Cart:React.FC<CartProps> = ({ setActiveAction, activeAction}) => {
   const calculateSubtotal = () => {
     let total = 0;
     cartItemsArray.map((item) => 
-      total += item.price * (1 - item.discount/100)
+      total += (item.price * (1 - item.discount/100)) * item.quantity
     )
     return total;
   }
 
+  const totalQuantity = cartItemsArray.reduce((sum, item) => sum += item.quantity, 0);
+
   return (
     <div>
       <button onClick={handleToggle} className={styles.cartButton}>
+        {cartItems.size > 0 && <span className={styles.cartItemsQuantity}>{totalQuantity}</span>}
         <ShoppingCart size={24}/>
       </button>
       {activeAction === "cart" &&
@@ -63,7 +65,7 @@ const Cart:React.FC<CartProps> = ({ setActiveAction, activeAction}) => {
           {cartItemsArray.length > 0 &&
             <div className={styles.subtotalContainer}>
               <p>Sub-Total (excluding sales tax)</p>
-              <strong>${calculateSubtotal().toFixed(2)}</strong>
+              <strong style={{color: 'green'}}>${calculateSubtotal().toFixed(2)}</strong>
             </div>
           }
           <div className={styles.actionsContainer}>

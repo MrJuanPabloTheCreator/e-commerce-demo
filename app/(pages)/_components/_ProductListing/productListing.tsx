@@ -14,25 +14,13 @@ const ProductListing = () => {
 
     const handleGetFilteredProducts = async () => {
         const updatedSession = await getSession();
-        if(updatedSession?.user.id){
-            console.log('user products')
-            const filteredProducts = await fetch(`/api/user/${updatedSession.user.id}/products?${searchParamsUrl}`)
-            const { success, products, error } = await filteredProducts.json()
-            if(success){
-                console.log(products)
-                setProductsList(products)
-            } else {
-                throw new Error(error)
-            }
+        const filteredProducts = await fetch(`/api/products?${searchParamsUrl}`)
+        const { success, products, error } = await filteredProducts.json()
+        if(success){
+            console.log(products)
+            setProductsList(products)
         } else {
-            const filteredProducts = await fetch(`/api/products?${searchParamsUrl}`)
-            const { success, products, error } = await filteredProducts.json()
-            if(success){
-                console.log(products)
-                setProductsList(products)
-            } else {
-                throw new Error(error)
-            }
+            throw new Error(error)
         }
     }
 
@@ -44,11 +32,11 @@ const ProductListing = () => {
         <div className={styles.pageContainer}>
             <div className={styles.productListing}>
                 {productsList.length > 0 ? productsList.map((product, index) => (
-                <ProductCard key={index} product={product}/>
+                    <ProductCard key={index} product={product}/>
                 )):(
-                <div>
-                    No Products Results
-                </div>
+                    <div>
+                        No Products Results
+                    </div>
                 )}
             </div>
         </div>

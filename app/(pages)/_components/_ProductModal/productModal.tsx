@@ -3,7 +3,9 @@ import React from 'react'
 import styles from "./productModal.module.css"
 import { Product } from '@/types';
 import Image from 'next/image';
-import { X } from 'lucide-react';
+import { Minus, Plus, X } from 'lucide-react';
+import { useCart } from '../../_context/CartContext';
+import SaveItemButton from '../_SaveItemButton/saveItemButton';
 
 interface ProductCardProps {
     product: Product;
@@ -11,11 +13,35 @@ interface ProductCardProps {
 }
 
 const ProductModal:React.FC<ProductCardProps> = ({product, setActiveProductModal}) => {
+    const { cartItems, addToCart, updateItem, removeFromCart, isItemInCart } = useCart()
+
+    const item = cartItems.get(product.product_id);
+    const quantity = item ? item.quantity : 0;
+
+    const handleRemoveFromCart = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault()
+        removeFromCart(product.product_id)
+    }
+
+    const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault()
+        addToCart({...product, quantity: 1});
+    };
+
+    const handleUpdateItem = (addition: number) => {
+        if(quantity + addition <= 0){
+            removeFromCart(product.product_id)
+        } else {
+            updateItem({...product, quantity: quantity + addition})
+        }
+    }
+
     return (
-        <div className={styles.productModalContainer} onClick={() => setActiveProductModal(null)}>
+        <div className={styles.productModalContainer}>
             <div className={styles.productModalCard}>
                 <div className={styles.productImageContainer}>
                     <Image src={product.image_url} alt="Product Image" fill className={styles.productImage}/>
+                    <SaveItemButton productId={product.product_id}/>
                 </div>
                 <section className={styles.productDetails}>
                     <h3>{product.description}</h3>
@@ -30,7 +56,19 @@ const ProductModal:React.FC<ProductCardProps> = ({product, setActiveProductModal
                     </div>
                     <p>Units Left: {product.stock}</p>
 
-                    <button>Add to cart</button>
+                    {isItemInCart(product.product_id) ? 
+                        <div className={styles.quantityContainer}>
+                            <button className={styles.decreaseButton} onClick={() => handleUpdateItem(-1)}>
+                                <Minus />
+                            </button> 
+                            <span className={styles.quantity}>{quantity}</span>
+                            <button className={styles.increaseButton} onClick={() => handleUpdateItem(+1)}>
+                                <Plus />
+                            </button>
+                        </div>
+                    : 
+                        <button onClick={handleAddToCart} className={styles.addToCartButton}>Add to Cart</button>
+                    }
                     
                 </section>
                 <button className={styles.productDetailsExit} onClick={() => setActiveProductModal(null)}>
