@@ -7,27 +7,28 @@ import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { FaHeart } from 'react-icons/fa'
 import { useSavedItems } from '../../_context/SavedContext'
+import { Product } from '@/types'
 
 interface SavedItemButtonProps {
-  productId: string
+  product: Product
 }
 
-const SaveItemButton:React.FC<SavedItemButtonProps> = ({ productId }) => {
+const SaveItemButton:React.FC<SavedItemButtonProps> = ({ product }) => {
   const { isItemSaved, addToSavedItems, removeFromSavedItems } = useSavedItems();
 
 
 
   const handleSaveItem = async () => {
-    if(!isItemSaved(productId)){
-      addToSavedItems(productId)
+    if(!isItemSaved(product.product_id)){
+      addToSavedItems(product)
     } else {
-      removeFromSavedItems(productId)
+      removeFromSavedItems(product.product_id)
     }
   }
 
   return (
     <button onClick={handleSaveItem} className={styles.buttonContainer}>
-      {isItemSaved(productId) ? <FaHeart size={24} style={{ color: 'red' }}/>:
+      {isItemSaved(product.product_id) ? <FaHeart size={24} style={{ color: '#6D326D' }}/>:
       <Heart size={24} />}
     </button>
   )

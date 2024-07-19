@@ -16,7 +16,7 @@ const ProductCard:React.FC<ProductCardProps> = ({product}) => {
 
     return (
         <div className={styles.cardContainer}>
-            <SaveItemButton productId={product.product_id}/>
+            <SaveItemButton product={product}/>
             <button className={styles.productImageContainer} onClick={() => setActiveProductModal(product.product_id)}>
                 <Image src={product.image_url} alt="Product Image" fill className={styles.productImage}/>
             </button>

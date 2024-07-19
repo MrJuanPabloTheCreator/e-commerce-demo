@@ -41,7 +41,7 @@ const ProductModal:React.FC<ProductCardProps> = ({product, setActiveProductModal
             <div className={styles.productModalCard}>
                 <div className={styles.productImageContainer}>
                     <Image src={product.image_url} alt="Product Image" fill className={styles.productImage}/>
-                    <SaveItemButton productId={product.product_id}/>
+                    <SaveItemButton product={product}/>
                 </div>
                 <section className={styles.productDetails}>
                     <h3>{product.description}</h3>

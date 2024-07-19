@@ -86,7 +86,7 @@ export async function GET(req: NextRequest, { params }: Params, res: NextRespons
             WHERE up.user_id = ?;`, 
             [id]
         );
-
+        
         await connection.commit();
         return new NextResponse(JSON.stringify({ success: true, items: savedItemsQuery }), { status: 200 });
 

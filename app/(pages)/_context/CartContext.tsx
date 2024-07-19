@@ -26,37 +26,73 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     return updatedSession;
   }
 
+  const syncDB = () => {
+
+  }
+
   const initializeCart = async () => {
     const storedCart = localStorage.getItem('cart');
     const updatedSession = await handleGetSession();
     
     if(storedCart && updatedSession?.user.id) {
+      console.log('merging')
       // merge both data storages into db
       const localCartItems = JSON.parse(storedCart);
       const getCartResponse = await fetch(`/api/user/${updatedSession?.user.id}/cart`)
-      const { success, items: serverCartItems, error } = await getCartResponse.json()
-      console.log(success)
+      const { success, items, error } = await getCartResponse.json()
       if (success) {
-        // Merge localCartItems and serverCartItems
-        const mergedCartItems = new Map();
+        const mergedCartItems = new Map<string, CartItem>(items.map((item: CartItem) => [item.product_id, item]));
 
-        // Add server items to mergedCartItems
-        serverCartItems.forEach((item: CartItem) => {
-          mergedCartItems.set(item.product_id, item);
+        let newItems:[string, CartItem][] = [];
+        let updateProducts:[string, number][] = []
+
+        // Separate existing items from non existing items in the db
+        localCartItems.forEach(([local_id, local_item]:[string, CartItem]) => {
+          if (mergedCartItems.has(local_item.product_id)) {
+            const existingItem: any = mergedCartItems.get(local_item.product_id);
+            updateProducts.push([local_id, existingItem.quantity + local_item.quantity])
+          } else {
+            newItems.push([local_item.product_id, local_item])
+          }
         });
 
-        // Add local items, merging quantities if item already exists
-        localCartItems.forEach((localItem: CartItem) => {
-            if (mergedCartItems.has(localItem.product_id)) {
-                const existingItem = mergedCartItems.get(localItem.product_id);
-                existingItem.quantity += localItem.quantity;
-            } else {
-                mergedCartItems.set(localItem.product_id, localItem);
-            }
-        });
+        // Update quantity of local stored cart items into db
+        if(updateProducts.length > 0){
+          const postItemResponse = await fetch(`/api/user/${updatedSession.user.id}/sync-cart`, {
+            method: 'PATCH',
+            body: JSON.stringify({ updateProducts: updateProducts })
+          })
+          const { success, error } = await postItemResponse.json()
+          if(success){
+            updateProducts.forEach(([local_id, quantity]) => {
+              const existingItem: any = mergedCartItems.get(local_id);
+              existingItem.quantity = quantity;
+            })
+
+          } else {
+            console.log('error posting item into db cart')
+          }
+        }
+
+        // Post local stored cart items into db
+        if(newItems.length > 0){
+          const postItemResponse = await fetch(`/api/user/${updatedSession.user.id}/sync-cart`, {
+            method: 'POST',
+            body: JSON.stringify({ newProducts: newItems })
+          })
+          const { success, error } = await postItemResponse.json()
+          if(success){
+            newItems.forEach(([local_id, local_item]) => {
+              mergedCartItems.set(local_id, local_item);
+            })
+
+          } else {
+            console.log('error posting item into db cart')
+          }
+        }
 
         setCartItems(mergedCartItems);
-        localStorage.removeItem('cart'); // Clear local storage after merging
+        localStorage.removeItem('cart');
       }
 
     } else if(!storedCart && updatedSession?.user.id){
@@ -68,8 +104,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       }
 
     } else if(storedCart && !updatedSession?.user.id){
+      console.log('third')
       // unauthenticated user
-      setCartItems(new Map(JSON.parse(storedCart).map((item: CartItem) => [item.product_id, item])));
+      const parsedCart = JSON.parse(storedCart);
+      const newMap = new Map<string, CartItem>(parsedCart)
+      setCartItems(newMap);
     }
   };
 
@@ -78,11 +117,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   useEffect(() => {
-    if(!session?.user.id){
+    if(!session?.user.id && cartItems.size > 0){
       // update cart locally
       localStorage.setItem('cart', JSON.stringify(Array.from(cartItems.entries())));
     }
-    console.log(cartItems)
+    // console.log(cartItems)
   }, [cartItems]);
 
   const updateItem = async (item: CartItem) => {

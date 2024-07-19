@@ -10,28 +10,9 @@ import { Product } from "@/types";
 import { useSavedItems } from "../_context/SavedContext";
 
 const SavedItemsPage = () => {
-    const [savedProducts, setSavedProducts] = useState<Product[]>([])
     const { savedItems } = useSavedItems();
-    const [loading, setLoading] = useState(true)
 
-    // const fetchSavedItems = async () => {
-    //     const savedItemsResponse = await fetch(`/api/user/products/${savedItems}`)
-    //     const { success, items, error } = await savedItemsResponse.json();
-    //     if(success){
-    //         setSavedProducts(items)
-    //     } else {
-    //         throw new Error(error.message)
-    //     }
-    //     setLoading(false)
-    // }
-
-    // useEffect(() => {
-    //     fetchSavedItems()
-    // },[savedItems])
-
-    if(loading){
-        return <div>Loading</div>
-    } 
+    const savedProductsArray = Array.from(savedItems.values());
 
     return (
         <div className={styles.container}>
@@ -39,7 +20,7 @@ const SavedItemsPage = () => {
                 <h1 className={styles.title}>Saved Items</h1>
             </div>
             <div className={styles.productListing}>
-                {savedProducts.length > 0 ? savedProducts.map((product, index) => (
+                {savedProductsArray.length > 0 ? savedProductsArray.map((product, index) => (
                     <ProductCard key={index} product={product}/>
                 )):(
                     <div>
