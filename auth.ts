@@ -65,7 +65,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
 
       const getUserByEmail = await fetch('http://localhost:3000/api/credentials', {
-    //   const getUserByEmail = await fetch('https://partydo.vercel.app/api/credentials', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -83,7 +82,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       } else {
         //Insert user into DB using Google Info
         const newUser = await fetch('http://localhost:3000/api/users', {
-        // const newUser = await fetch('https://partydo.vercel.app/api/users', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

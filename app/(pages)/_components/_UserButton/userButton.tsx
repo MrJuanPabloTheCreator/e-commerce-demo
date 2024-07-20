@@ -1,6 +1,6 @@
 "use client"
 
-import { CircleUserRound, LogOut } from "lucide-react";
+import { CircleUserRound, LogOut, Truck } from "lucide-react";
 import { User } from "next-auth";
 import { signIn, signOut } from "next-auth/react";
 import Image from "next/image";
@@ -56,7 +56,7 @@ export default function UserButton({ user, activeAction, setActiveAction }: User
                     className={styles.modal} 
                 >
                     <button 
-                        className={styles.modalButton}
+                        className={styles.modalHeader}
                     >
                         {user?.image != null ?
                             (
@@ -66,9 +66,17 @@ export default function UserButton({ user, activeAction, setActiveAction }: User
                             )
                         }
                         <div className={styles.profileDetails}>
-                            <h3>Profile</h3>
-                            <h4>{user?.name}</h4>
+                            <h3>{user?.name}</h3>
+                            <h4>{user?.email}</h4>
                         </div>
+                    </button>
+                    <button 
+                        onClick={() => signOut({ callbackUrl: '/home' })}
+                        className={styles.modalButton}
+                        style={{cursor: 'pointer'}}
+                    >   
+                        <Truck size={24}/>
+                        <h3>Orders</h3>
                     </button>
                     <button 
                         onClick={() => signOut({ callbackUrl: '/home' })}

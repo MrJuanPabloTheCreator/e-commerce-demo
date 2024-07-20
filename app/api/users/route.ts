@@ -41,11 +41,11 @@ export async function POST(req: NextRequest) {
 
         if (provider === 'google') {
             query = `
-                INSERT INTO users (user_id, name, email, provider, image) 
+                INSERT INTO users (user_id, name, email, provider, image_url) 
                 VALUES (?, ?, ?, ?, ?)`;
             values = [userId, name, email, provider, image];
         } else if (provider === 'credentials') {
-            console.log('here')
+            
             const hashedPassword = await bcrypt.hash(password, 10);
             query = `
                 INSERT INTO users (user_id, name, email, password, provider) 

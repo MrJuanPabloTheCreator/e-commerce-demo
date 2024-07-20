@@ -8,6 +8,7 @@ import Link from 'next/link';
 import toast from 'react-hot-toast';
 
 import styles from './page.module.css';
+import Image from 'next/image';
 
 type LoginForm = {
     email: string;
@@ -29,9 +30,11 @@ export default function SignIn() {
     <div className={styles.container}>
       <header className={styles.header}>
         <div className={styles.headerTitle}>
-          <h1 className={`${styles.headerText} ${styles.textGreen}`}>Party</h1>
-          <p className={`${styles.headerText} ${styles.textGray}`}>-</p>
-          <h1 className={`${styles.headerText} ${styles.textGray}`}>Do</h1>
+          <h1 className={styles.headerText}>Paw</h1>
+          <div className={styles.imageContainer}>
+            <Image src={'/logo2.png'} alt="Store Logo" width={65} height={65} className={styles.logoImage}/>
+          </div>
+          <h1 className={styles.headerText}>Paradise</h1>
         </div>
         <h1 className={styles.welcomeText}>Welcome Back!</h1>
       </header>
@@ -66,7 +69,7 @@ export default function SignIn() {
         <div className={styles.divider} />
       </div>
       <button onClick={() => GoogleLogin()} className={styles.googleButton}>
-        <FcGoogle className="h-6 w-6" />
+        <FcGoogle size={24} />
       </button>
       <Link href={'/auth/sign-up'} className={styles.signUpLink}>
         Don&apos;t have an account?
