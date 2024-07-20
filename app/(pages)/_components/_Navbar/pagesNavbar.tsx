@@ -22,11 +22,13 @@ const PagesNavbar = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const selectedCategory = searchParams.get('c')
+  const page = searchParams.get('page')
 
   useEffect(() => {
       const params = new URLSearchParams(searchParams.toString());
       if(activeNav){
         params.set("c", String(activeNav));
+        params.set("page", String(0))
         router.push(`/products?${params}`)
       }
   }, [activeNav])

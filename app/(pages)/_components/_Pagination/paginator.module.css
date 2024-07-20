@@ -1,0 +1,48 @@
+.pagesNavigatorContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.navigatorContent {
+    width: 40%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.navigatorContentButton {
+    cursor: pointer;
+    background-color: transparent;
+    color: #6D326D;
+    border-radius: 0.5rem;
+    border: none;
+}
+.navigatorContentButton:disabled {
+    color: #a8a8a8;
+    cursor: not-allowed;
+}
+
+.navigatorContentNumbers {
+    height: 2rem;
+    width: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 1rem;
+    border: none;
+    color: #6D326D;
+    font-weight: 600;
+}
+.navigatorContentNumbers:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+.navigatorContentNumbers:disabled {
+    cursor: not-allowed;
+}
+
+.numberContainer {
+    display: flex;
+    gap: 0.25rem;
+}

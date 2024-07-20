@@ -61,33 +61,39 @@ const CartPage = () => {
             </div>
           }
         </div>
-        <div className={styles.summaryContainer}>
-          <div>
-            <div className={styles.summaryDescription}>
-              <strong>Subtotal</strong>
-              <strong style={{textDecoration: 'line-through'}}>${calculateTotal().toFixed(2)}</strong>
+        {cartItemsArray.length > 0 &&
+          <div className={styles.summaryContainer}>
+            <div>
+              <div className={styles.summaryDescription}>
+                <strong>Subtotal</strong>
+                <strong style={{textDecoration: 'line-through'}}>${calculateTotal().toFixed(2)}</strong>
+              </div>
+              <div className={styles.summaryDescription}>
+                <strong>Savings</strong>
+                <strong style={{color: 'red'}}>-${totalSavings().toFixed(2)}</strong>
+              </div>
+              <div className={styles.summaryDescription}>
+                <p></p>
+                <strong style={{color: 'green'}}>${calculateSubtotal().toFixed(2)}</strong>
+              </div>
             </div>
-            <div className={styles.summaryDescription}>
-              <strong>Savings</strong>
-              <strong style={{color: 'red'}}>-${totalSavings().toFixed(2)}</strong>
+            <div className={styles.summaryDescription2}>
+              <strong>Taxes</strong>
+              <p style={{fontSize: '0.87.5rem'}}>Calculated at checkout</p>
             </div>
-            <div className={styles.summaryDescription}>
-              <p></p>
+            <div className={styles.summaryDescription2}>
+              <strong>Shipping</strong>
+              <p style={{fontSize: '0.87.5rem'}}>Calculated at checkout</p>
+            </div>
+            <div className={styles.summaryDescription2}>
+              <strong>Estimated Total</strong>
               <strong style={{color: 'green'}}>${calculateSubtotal().toFixed(2)}</strong>
             </div>
+            <Link href={'/checkout'} className={styles.checkout}>
+              Continue to checkout
+            </Link>
           </div>
-          <div className={styles.summaryDescription2}>
-            <strong>Taxes</strong>
-            <p style={{fontSize: '0.87.5rem'}}>Calculated at checkout</p>
-          </div>
-          <div className={styles.summaryDescription2}>
-            <strong>Estimated Total</strong>
-            <strong style={{color: 'green'}}>${calculateSubtotal().toFixed(2)}</strong>
-          </div>
-          <Link href={'/checkout'} className={styles.checkout}>
-            Continue to checkout
-          </Link>
-        </div>
+        }
       </div>    
     </div>
   )

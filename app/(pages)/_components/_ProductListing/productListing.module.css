@@ -1,9 +1,11 @@
 .pageContainer {
     width: 100%;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     padding-top: 1rem;
     padding-bottom: 1rem;
+    gap: 1rem;
     z-index: 1;
 }
 

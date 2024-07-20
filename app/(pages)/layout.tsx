@@ -18,9 +18,9 @@ const PagesLayout = ({
             <PagesNavbar/>
             {children}
           </section>
+          <Footer/>
         </SavedItemsProvider>
       </CartProvider>
-      <Footer/>
     </main>
   )
 }

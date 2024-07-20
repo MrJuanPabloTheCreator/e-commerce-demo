@@ -7,7 +7,7 @@ export async function GET(req: NextRequest) {
     let offset = '0';
     const updatedOffset = searchParams.get('page');
     if(updatedOffset){
-        offset = updatedOffset;
+        offset = String(Number(updatedOffset) * 12);
     }
     const category = searchParams.get('c');
     const specie = searchParams.get('specie')
@@ -69,7 +69,7 @@ export async function GET(req: NextRequest) {
             values.push(specie);
         }
 
-        const limit = 10;
+        const limit = 12;
         query += ` LIMIT ${limit} OFFSET ${offset};`;
         // console.log(query, values)
         const [productsResult] = await connection.query(query, values)

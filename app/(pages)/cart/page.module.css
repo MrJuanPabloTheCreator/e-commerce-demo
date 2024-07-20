@@ -14,12 +14,12 @@
     display: flex;
     justify-content: start;
     width: 100%;
-    background-color: #6D326D;
+    background-color: white;
     padding: 2rem;
     padding-left: 20rem;
 }
 .title {
-    color: white;
+    color: #6D326D;
     font-size: 2rem;
 }
 
@@ -33,7 +33,6 @@
     padding: 1rem;
     width: 22rem;
     height: fit-content;
-    border: 1px solid rgb(173, 173, 173);
     border-radius: 0.5rem;
     gap: 1.25rem;
     background-color: white;
@@ -59,7 +58,6 @@
 .cartItemContainer {
     position: relative;
     display: flex;
-    border: 2px rgb(211, 211, 211) solid;
     border-radius: 0.5rem;
     overflow: hidden;
     background-color: white;
