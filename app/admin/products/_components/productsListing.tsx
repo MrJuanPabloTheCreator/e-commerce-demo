@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { useSearchParams } from "next/navigation"
 
 import ProductsNavbar from "./productsNavbar"
@@ -24,7 +24,7 @@ const ProductsListing = () => {
   const [productsList, setProductsList] = useState<Product[]>([])
   const searchParamsUrl = useSearchParams();
 
-  const handleGetFilteredProducts = async () => {
+  const handleGetFilteredProducts = useCallback(async () => {
     const filteredProducts = await fetch(`/api/products?${searchParamsUrl}`)
     const { success, products, error } = await filteredProducts.json()
     if(success){
@@ -33,12 +33,12 @@ const ProductsListing = () => {
     } else {
       throw new Error(error)
     }
-  }
+  }, [searchParamsUrl]);
 
   const performAction = async (action: string, product: Product) => {
     switch (action) {
       case 'Archive':
-        
+        // Archive logic here
         break;
       case 'Edit':
         setUpdateProduct(product)
@@ -46,7 +46,8 @@ const ProductsListing = () => {
       case 'Delete':
         const { success, error } = await deleteProduct(product.product_id);
         if(success){
-          toast.success('Product deleted succesfully!')
+          toast.success('Product deleted successfully!')
+          handleGetFilteredProducts(); // Refresh the products list after deletion
         } else {
           toast.error(error)
         }
@@ -58,7 +59,7 @@ const ProductsListing = () => {
 
   useEffect(() => {
     handleGetFilteredProducts()
-  }, [searchParamsUrl])
+  }, [handleGetFilteredProducts])
 
   return (
     <div className={styles.productsListingContainer}>
@@ -76,9 +77,9 @@ const ProductsListing = () => {
         </ul>
         <span/>
       </div>
-      {productsList.length > 0 ? productsList.map((product, index) => 
-        <div className={styles.itemContainer}>
-          <ul key={index}>
+      {productsList.length > 0 ? productsList.map((product) => 
+        <div key={product.product_id} className={styles.itemContainer}>
+          <ul>
             <li style={{display: 'flex', gap: '0.5rem', alignItems: 'center'}}>
               <div className={styles.imageContainer}>
                 <Image src={product.image_url} alt="product image" fill className={styles.image}/>

@@ -1,7 +1,6 @@
 "use client"
 
-import styles from "./page.module.css"
-import ProductListing from "../_components/_ProductListing/productListing";
+import ProductListing from "./_components/_ProductListing/productListing"
 
 const HomePage = () => {
 

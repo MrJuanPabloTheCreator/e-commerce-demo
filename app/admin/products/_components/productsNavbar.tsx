@@ -94,10 +94,10 @@ const ProductsNavbar = () => {
   return (
     <div className={styles.navbarContainer}>
       <div className={styles.navbarActions}>
-        <button className={styles.actionsButton} style={activeFilter ? {}:{backgroundColor: '#ffffff', color: '#000000', border: '#000 2px solid'}} onClick={() => (setActiveFilter(!activeFilter), setActiveOption(null))}>
+        {/* <button className={styles.actionsButton} style={activeFilter ? {}:{backgroundColor: '#ffffff', color: '#000000', border: '#000 2px solid'}} onClick={() => (setActiveFilter(!activeFilter), setActiveOption(null))}>
           Filters
           <SlidersHorizontal size={16} />
-        </button>
+        </button> */}
         <button className={styles.actionsButton} onClick={() => setAddProductModal(true)}>
           Add
           <Plus size={16}/>
@@ -108,7 +108,7 @@ const ProductsNavbar = () => {
           <NewProductModal setProductModal={setAddProductModal}/>
         </div>
       }
-      {activeFilter && 
+      {/* {activeFilter && 
         <div className={styles.filtersContainer}>
           <div className={styles.filterContainer}>
             <button className={styles.colorsButton} onClick={() => setActiveOption(activeOption === 'categories' ? null : 'categories')}>
@@ -186,7 +186,7 @@ const ProductsNavbar = () => {
             }
           </div>
         </div>
-      }
+      } */}
     </div>
   )
 }

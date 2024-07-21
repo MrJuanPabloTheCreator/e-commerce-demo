@@ -166,7 +166,7 @@ const UpdateProductModal: React.FC<NewProductModalProps> = ({ selectedProduct, s
                             {errors.description && <span>This field is required</span>}
                         </fieldset>
 
-                        <fieldset>
+                        {/* <fieldset>
                             <h3>Category</h3>
                             <select
                                 {
@@ -184,7 +184,7 @@ const UpdateProductModal: React.FC<NewProductModalProps> = ({ selectedProduct, s
                                 )}
                             </select>
                             {errors.category && <span>Please select a valid category</span>}
-                        </fieldset>
+                        </fieldset> */}
 
                     </div>
 

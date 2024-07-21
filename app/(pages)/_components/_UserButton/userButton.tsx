@@ -70,14 +70,14 @@ export default function UserButton({ user, activeAction, setActiveAction }: User
                             <h4>{user?.email}</h4>
                         </div>
                     </button>
-                    <button 
-                        onClick={() => signOut({ callbackUrl: '/home' })}
+                    {/* <Link
+                        href={'/orders' }
                         className={styles.modalButton}
-                        style={{cursor: 'pointer'}}
+                        style={{cursor: 'pointer', textDecoration: 'none', fontSize: '0.875rem'}}
                     >   
                         <Truck size={24}/>
                         <h3>Orders</h3>
-                    </button>
+                    </Link> */}
                     <button 
                         onClick={() => signOut({ callbackUrl: '/home' })}
                         className={styles.modalButton}

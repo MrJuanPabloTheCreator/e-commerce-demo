@@ -48,6 +48,21 @@
     overflow: auto;
 }
 
+.closeButton {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: flex;
+    padding: 0.25rem;
+    border: none;
+    border-radius: 1rem;
+    color: rgb(100, 100, 100);
+    cursor: pointer;
+}
+.closeButton:hover {
+    color: red;
+}
+
 .dropdownHeader {
     padding: 0.75rem 0.5rem;
     background-color: #ffffff;

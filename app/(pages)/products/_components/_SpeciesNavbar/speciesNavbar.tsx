@@ -23,12 +23,13 @@ const SpeciesNavbar = () => {
         }
 
         router.push(`/products?${params}`)
-    }, [activeSpecie])
+    }, [activeSpecie, searchParams, router])
 
     return (
         <div className={styles.speciesContainer}>
             {species.map((specie, index) => 
                 <button 
+                    key={index}
                     className={styles.specieCard} 
                     onClick={() => setActiveSpecie(activeSpecie === specie.name ? null: specie.name)} 
                     style={specieSelected === specie.name ? { backgroundColor: '#6D326D', color: 'white' } : { backgroundColor: 'rgba(0, 0, 0, 0.05)', color: '#6D326D' }}

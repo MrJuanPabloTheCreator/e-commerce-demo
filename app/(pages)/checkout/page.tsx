@@ -73,7 +73,7 @@ const CheckoutPage = () => {
   return (
     <div className={styles.pageContainer}>
       <header>
-        <Link className={styles.logoContainer} href={'/home'}>
+        <Link className={styles.logoContainer} href={'/'}>
           <h1 style={{fontSize: '1.5rem'}}>Paw</h1>
           <Image src={'/logo2.png'} alt="Store Logo" width={65} height={65} className={styles.logoImage}/>
           <h1 style={{fontSize: '1.5rem'}}>Paradise</h1>
@@ -96,18 +96,18 @@ const CheckoutPage = () => {
                   <Pencil size={20}/>
                 </button>
                 <button 
-                  className={styles.addressButton} onClick={() => setDeliveryOption(3)}
-                  style={deliveryOption === 1 ? {backgroundColor: 'green'}:{backgroundColor: 'white'}}
+                  className={styles.addressButton}
+                  style={{backgroundColor: 'green'}}
                 />
               </div>
-              <p>Name</p>
-              <p>Address 1</p>
-              <p>Address 2</p>
-              <p>City</p>
-              <p>State</p>
-              <p>Postal Code</p>
-              <p>Number</p>
-              <p>Email</p>
+              <p>Name...</p>
+              <p>Address 1...</p>
+              <p>Address 2...</p>
+              <p>City...</p>
+              <p>State...</p>
+              <p>Postal Code...</p>
+              <p>Number...</p>
+              <p>Email...</p>
             </div>
           </section>
 
@@ -148,11 +148,60 @@ const CheckoutPage = () => {
             <h2>Payment</h2>
 
             <div>
-              <h3>Billing Address</h3>
-
+              <h3 style={{paddingBottom: '1rem'}}>Billing Address</h3>
+              <div className={styles.addressContainer}>
+                <div className={styles.buttonsContainer}>
+                  <button className={styles.editAddressButton}>Edit
+                    <Pencil size={20}/>
+                  </button>
+                  <button 
+                    className={styles.addressButton}
+                    style={{backgroundColor: 'green'}}
+                  />
+                </div>
+                <p>Name...</p>
+                <p>Address 1...</p>
+                <p>Address 2...</p>
+                <p>City...</p>
+                <p>State...</p>
+                <p>Postal Code...</p>
+                <p>Number...</p>
+                <p>Email...</p>
+              </div>
             </div>
-            <div>
-              <h3>Payment Type</h3>
+
+            <div style={{display: 'flex', flexDirection: 'column', gap: '0.25rem'}}>
+              <h3 style={{padding: '1rem 0rem'}}>Select Payment Option</h3>
+              <div className={styles.creditCardContainer}>
+                <div style={{display: 'flex', alignItems:'center', justifyContent: 'space-between', width: '100%'}}>
+                  <h4>Credit Card</h4>
+                  <button 
+                    className={styles.addressButton}
+                    style={{backgroundColor: 'green'}}
+                  />
+                </div>
+
+                <div style={{display: 'flex', flexDirection: 'column', gap: '0.25rem'}}>
+                  <h5>Card Number</h5>
+                  <input/>
+                </div>
+
+                <div style={{display: 'flex', gap: '1rem'}}>
+                  <div style={{display: 'flex', flexDirection: 'column', gap: '0.25rem'}}>
+                    <h5>Name on card</h5>
+                    <input/>
+                  </div>
+                  <div style={{display: 'flex', flexDirection: 'column', gap: '0.25rem'}}>
+                    <h5>Expire date</h5>
+                    <input/>
+                  </div>
+                  <div style={{display: 'flex', flexDirection: 'column', gap: '0.25rem'}}>
+                    <h5>CVV</h5>
+                    <input/>
+                  </div>
+                </div>
+
+              </div>
             </div>
             
           </section>

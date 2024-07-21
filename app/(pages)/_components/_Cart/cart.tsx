@@ -2,7 +2,7 @@
 import Link from "next/link"
 import styles from "./cart.module.css"
 import { useCart } from "../../_context/CartContext";
-import { ShoppingCart, Trash2 } from "lucide-react";
+import { ShoppingCart, Trash2, X } from "lucide-react";
 import Image from "next/image";
 
 interface CartProps {
@@ -38,6 +38,9 @@ const Cart:React.FC<CartProps> = ({ setActiveAction, activeAction}) => {
       {activeAction === "cart" &&
         <div className={styles.dropdownContainer}>
           <h3 className={styles.dropdownHeader}>My Cart</h3>
+          <button className={styles.closeButton} onClick={() => setActiveAction(null)}>
+            <X size={20}/>
+          </button>
           <div className={styles.productsContent}>
             {cartItemsArray.length > 0 ? cartItemsArray.map((item, index) => (
               <div key={index} className={styles.cartItemContainer}>
@@ -57,7 +60,7 @@ const Cart:React.FC<CartProps> = ({ setActiveAction, activeAction}) => {
                 </button>
               </div>
             )): 
-              <div>
+              <div style={{padding: '0.5rem'}}>
                 No products in your cart
               </div>
             }
@@ -68,10 +71,10 @@ const Cart:React.FC<CartProps> = ({ setActiveAction, activeAction}) => {
               <strong style={{color: 'green'}}>${calculateSubtotal().toFixed(2)}</strong>
             </div>
           }
-          <div className={styles.actionsContainer}>
+          {cartItemsArray.length > 0 && <div className={styles.actionsContainer}>
             <Link className={styles.actionButton} href={'/cart'}>Go to cart</Link>
             <Link className={styles.actionButton} href={'/checkout'}>Checkout</Link>
-          </div>
+          </div>}
         </div>
       }
     </div>

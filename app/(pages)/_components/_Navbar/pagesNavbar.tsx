@@ -46,7 +46,7 @@ const PagesNavbar = () => {
     <div className={styles.navbarContainer}>
 
       <section className={styles.topNavbarContainer}>
-        <Link className={styles.leftSideTopNav} href={'/home'}>
+        <Link className={styles.leftSideTopNav} href={'/'}>
           <h1 style={{fontSize: '1.5rem'}}>Paw</h1>
           <div className={styles.imageContainer}>
             <Image src={'/logo2.png'} alt="Store Logo" width={65} height={65} className={styles.logoImage}/>

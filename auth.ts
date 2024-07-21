@@ -34,8 +34,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         try {
           const { email, password } = validatedFields.data;
-        //   const getUserByEmail = await fetch('https://partydo.vercel.app/api/credentials', {
-          const getUserByEmail = await fetch('http://localhost:3000/api/credentials', {
+          const getUserByEmail = await fetch(`${process.env.ROOT_PATH}/api/credentials`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -59,12 +58,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
   callbacks: {
     async signIn({ user, account, profile }){
-      // Check if there is a session already on!!!!!!!!!!!!
       if(!account){
         return false;
       }
 
-      const getUserByEmail = await fetch('http://localhost:3000/api/credentials', {
+      const getUserByEmail = await fetch(`${process.env.ROOT_PATH}/api/credentials`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -81,7 +79,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         user.role = existingUser.role;
       } else {
         //Insert user into DB using Google Info
-        const newUser = await fetch('http://localhost:3000/api/users', {
+        const newUser = await fetch(`${process.env.ROOT_PATH}/api/users`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -120,7 +118,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return session;
     },
     async redirect(){
-      return 'http://localhost:3000/home'
+      return `${process.env.ROOT_PATH}/`
     //   return 'https://partydo.vercel.app/home'
     }
   },
