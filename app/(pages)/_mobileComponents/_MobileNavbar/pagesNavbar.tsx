@@ -1,6 +1,6 @@
 "use client"
 
-import { CircleUserRound, Heart, Search, ShoppingCart, SlidersHorizontal } from "lucide-react"
+import { CircleUserRound, Heart, Menu, Search, ShoppingCart, SlidersHorizontal, X } from "lucide-react"
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
@@ -13,7 +13,8 @@ import styles from "./navbar.module.css"
 import UserButton from "../../_components/_UserButton/userButton"
 import Cart from "../../_components/_Cart/cart"
 
-const PagesNavbar = () => {
+const MobileNavbar = () => {
+  const [activeMenu, setActiveMenu] = useState(false)
   const [session, setSession] = useState<Session | null>(null)
   const [activeAction, setActiveAction] = useState<string | null>(null)
   const [activeNav, setActiveNav] = useState<number | null>(null)
@@ -44,43 +45,54 @@ const PagesNavbar = () => {
   return (
     <div className={styles.navbarContainer}>
 
-      <section className={styles.topNavbarContainer}>
-        <Link className={styles.leftSideTopNav} href={'/'}>
+      <section className={styles.navbarContent}>
+        <button className={styles.menuButton} onClick={() => setActiveMenu(!activeMenu)}>
+          <Menu size={24}/>
+        </button>
+
+        <Link className={styles.logoContainer} href={'/'}>
           <h1>Paw</h1>
           <div className={styles.imageContainer}>
             <Image src={'/logo2.png'} alt="Store Logo" fill className={styles.logoImage}/>
           </div>
           <h1>Paradise</h1>
         </Link>
-        <div className={styles.searchbar}>
-          <input 
-            className={styles.searchbar}
-            placeholder="Search"
-          />
-          <Search />
-        </div>
-        <div className={styles.rightSideTopNav}>
-          <button className={styles.rightNavButton} onClick={() => router.push('/saved-items')}>
+
+        <div className={styles.rightSideContent}>
+          <button className={styles.heartButton} onClick={() => router.push('/saved-items')}>
             <Heart size={24}/>
-            <p className={styles.rightNavP}>Saved Items</p>
+            <p>Saved Items</p>
           </button>
           <UserButton user={session?.user} setActiveAction={setActiveAction} activeAction={activeAction}/>
           <Cart setActiveAction={setActiveAction} activeAction={activeAction}/>
         </div>
       </section>
 
-      <section className={styles.bottomNavbarContainer}>
-        <nav className={styles.categories}>
-          {categories.map((category, index) => 
-            <button onClick={() => setActiveNav(category.id)}  key={index} style={category.id === Number(selectedCategory) ? { backgroundColor: '#6D326D', color: 'white' } : {}}>
-              {category.name}
+      {activeMenu && 
+        <section className={styles.menuContainer}>
+          <header className={styles.menuHeader}>
+            <div className={styles.menuLogo}>
+              <h1>Paw</h1>
+              <div className={styles.imageContainer}>
+                <Image src={'/logo2.png'} alt="Store Logo" fill className={styles.logoImage}/>
+              </div>
+              <h1>Paradise</h1>
+            </div>
+            <button onClick={() => setActiveMenu(false)}>
+              <X size={24}/>
             </button>
-          )}
-        </nav>
-      </section>
-
+          </header>
+          <nav className={styles.categories}>
+            {categories.map((category, index) => 
+              <button onClick={() => (setActiveNav(category.id), setActiveMenu(false))}  key={index} style={category.id === Number(selectedCategory) ? { backgroundColor: '#6D326D', color: 'white' } : {}}>
+                {category.name}
+              </button>
+            )}
+          </nav>
+        </section>  
+      }
     </div>
   )
 }
 
-export default PagesNavbar
+export default MobileNavbar

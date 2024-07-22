@@ -1,0 +1,108 @@
+@media (min-width: 601px) {
+    .navbarContainer { 
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .navbarContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #6D326D;
+    }
+
+    .navbarContent {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem;
+    }
+
+    .menuButton {
+        background-color: transparent;
+        border: none;
+        color: white;
+    }
+    
+    .logoContainer {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+    }
+    .logoContainer h1 {
+        font-size: 1.25rem;
+        color: white;
+    }   
+    .imageContainer {
+        position: relative;
+        height: 40px;
+        width: 40px;
+    }
+    .logoImage {
+        transform: rotate(15deg);
+        object-fit: contain;
+    }
+
+    .rightSideContent {
+        display: flex;
+        align-items: center;
+    }
+    .heartButton {
+        display: flex;
+        align-items: center;
+        border: none;
+        background-color: transparent;
+        color: white;
+    }
+    .heartButton p {
+        display: none;
+    }
+    
+    .menuContainer {
+        position: absolute;
+        width: 90%;
+        height: 100%;
+        left: 0;
+        background-color: white;
+        z-index: 30;
+    }
+    .menuHeader {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+    }
+    .menuHeader button {
+        display: flex;
+        border: none;
+        background-color: transparent;
+    }
+    .menuLogo {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+    }
+    .menuLogo h1 {
+        font-size: 1.25rem;
+        color: black;
+    } 
+    .categories {
+        display: flex;
+        flex-direction: column;
+    }
+    .categories button {
+        display: flex;
+        border: none;
+        background-color: transparent;
+        justify-content: start;
+        font-size: 1.25rem;
+        line-height: 1.75rem;
+        padding: 1rem 1rem;
+        font-weight: 600;
+        border-bottom: 1px solid rgb(199, 199, 199);
+    }
+}
+

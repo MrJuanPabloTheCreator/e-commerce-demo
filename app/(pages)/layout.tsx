@@ -2,6 +2,7 @@ import Footer from "./_components/_Footer/footer";
 import PagesNavbar from "./_components/_Navbar/pagesNavbar";
 import { CartProvider } from "./_context/CartContext";
 import { SavedItemsProvider } from "./_context/SavedContext";
+import MobileNavbar from "./_mobileComponents/_MobileNavbar/pagesNavbar";
 import styles from "./layout.module.css"
 
 const PagesLayout = ({
@@ -16,6 +17,7 @@ const PagesLayout = ({
         <SavedItemsProvider>
           <section className={styles.content}>
             <PagesNavbar/>
+            <MobileNavbar/>
             {children}
           </section>
           <Footer/>
