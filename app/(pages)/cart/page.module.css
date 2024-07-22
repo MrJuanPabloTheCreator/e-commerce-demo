@@ -16,7 +16,6 @@
     width: 100%;
     background-color: white;
     padding: 2rem;
-    padding-left: 20rem;
 }
 .title {
     color: #6D326D;
@@ -27,11 +26,30 @@
     display: flex;
     gap: 1rem;
 }
+
+@media (min-width: 601px) {
+    .titleContainer {
+        padding-left: 20rem;
+    }
+    .summaryContainer {
+        width: 22rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .titleContainer {
+        padding-left: 5rem;
+    }
+    .cartContent {
+        flex-direction: column;
+        padding: 0.25rem;
+    }
+}
+
 .summaryContainer {
     display: flex;
     flex-direction: column;
     padding: 1rem;
-    width: 22rem;
     height: fit-content;
     border-radius: 0.5rem;
     gap: 1.25rem;

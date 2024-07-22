@@ -1,8 +1,20 @@
 
+@media (min-width: 601px) {
+    .buttonContainer {
+        top: 0.25rem;
+        right: 0.25rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .buttonContainer {
+        bottom: 0.25rem;
+        right: 0.25rem;
+    }
+}
+
 .buttonContainer {
     position: absolute;
-    top: 0.25rem;
-    right: 0.25rem;
     padding: 0.25rem;
     display: flex;
     border: none;

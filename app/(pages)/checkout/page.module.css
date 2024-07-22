@@ -1,7 +1,6 @@
 .pageContainer {
     position: absolute;
     width: 100%;
-    max-width: 1920px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -9,11 +8,11 @@
     background-color: rgb(245, 245, 245);
     z-index: 40;
 }
+
 .pageContainer header {
     width: 65%;
     display: flex;
     align-items: center;
-    gap: 11rem;
     padding-bottom: 1rem;
 }
 .pageContainer h1 {
@@ -36,14 +35,12 @@
 
 .detailsContainer {
     position: relative;
-    width: 65%;
     display: flex;
     gap: 1rem;
 }
 .userDetails {
     display: flex;
     flex-direction: column;
-    width: 60%;
     gap: 1rem;
 }
 .addressContainer {
@@ -91,9 +88,7 @@
 }
 
 .summaryContainer {
-    position: sticky;
     top: 1rem;
-    width: 40%;
     height: fit-content;
     padding: 1rem;
     display: flex;
@@ -155,7 +150,58 @@
     justify-content: space-between;
 }
 
+@media (min-width: 601px) {
+    .pageContainer header {
+        gap: 11rem;
+    }
+    .detailsContainer {
+        width: 65%;
+    }
+    .userDetails {
+        width: 60%;
+    }
+    .summaryContainer {
+        position: sticky;
+        width: 40%;
+    }
+    .confirmButton2 {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .pageContainer header {
+        gap: 1rem;
+        flex-direction: column;
+    }
+    .detailsContainer {
+        flex-direction: column;
+        width: 100%
+    }
+    .userDetails {
+        width: 100%;
+    }
+    .summaryContainer {
+        width: 100%;
+    }
+    .confirmButton {
+        display: none;
+    }
+}
+
 .confirmButton {
+    padding: 0.5rem 0rem;
+    background-color: green;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 600;
+    color: white;
+    cursor: not-allowed;
+    border-radius: 0.25rem;
+    border: none;
+}
+
+.confirmButton2 {
     padding: 0.5rem 0rem;
     background-color: green;
     font-size: 1rem;

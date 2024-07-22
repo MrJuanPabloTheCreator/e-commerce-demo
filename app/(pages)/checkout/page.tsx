@@ -248,6 +248,9 @@ const CheckoutPage = () => {
               <strong>${calculateTotal().toFixed(2)}</strong>
             </div>
           </div>
+          <button className={styles.confirmButton2}>
+            Buy Now
+          </button>
         </div>
       </div>
     </div>

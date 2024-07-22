@@ -16,7 +16,6 @@
     display: flex;
     padding: 1rem;
     gap: 1rem;
-    width: 70%;
     height: 85%;
     background-color: white;
     border-radius: 1rem;
@@ -26,17 +25,39 @@
 .productImageContainer {
     position: relative;
     height: 100%;
-    width: 50%;
-    /* border: 1px black solid; */
 }
 .productImage {
     object-fit: contain;
 }
 
+@media (min-width: 601px) {
+    .productModalCard {
+        width: 70%;
+    }
+    .productImageContainer {
+        width: 50%;
+    }
+    .productDetails {
+        width: 50%;
+    }
+}
+
+@media (max-width: 600px) {
+    .productModalCard {
+        width: 90%;
+        flex-direction: column;
+    }
+    .productImageContainer {
+        width: 100%;
+    }
+    .productDetails {
+        width: 100%;
+    }
+}
+
 .productDetails {
     display: flex;
     flex-direction: column;
-    width: 50%;
     gap: 0.5rem;
 }
 
