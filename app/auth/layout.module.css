@@ -4,4 +4,23 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    height: 100vh;
+}
+
+@media (min-width: 601px) {
+    .layoutContainer {
+        background-image: url('/auth-background-image.jpeg');
+        background-size: cover;
+        background-position: center calc(100% + 135px);
+    }
+}
+
+@media (max-width: 600px) {
+    .layoutContainer {
+        background-image: url('/auth-mobile-background-image.jpeg');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center calc(100% - 103%);
+    }
 }
