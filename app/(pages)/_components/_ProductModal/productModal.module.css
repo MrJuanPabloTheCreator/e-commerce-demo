@@ -71,6 +71,7 @@
     border-radius: 1rem;
     border: none;
     background-color: transparent;
+    color: black;
 }
 .productDetailsExit:hover {
     background-color: rgba(0, 0, 0, 0.1);
