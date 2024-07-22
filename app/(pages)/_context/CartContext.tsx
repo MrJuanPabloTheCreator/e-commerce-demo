@@ -26,10 +26,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     return updatedSession;
   }
 
-  const syncDB = () => {
-
-  }
-
   const initializeCart = async () => {
     const storedCart = localStorage.getItem('cart');
     const updatedSession = await handleGetSession();
@@ -117,11 +113,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   useEffect(() => {
-    if(!session?.user.id && cartItems.size > 0){
+    if(!session?.user.id && cartItems){
       // update cart locally
       localStorage.setItem('cart', JSON.stringify(Array.from(cartItems.entries())));
     }
-    // console.log(cartItems)
   }, [cartItems]);
 
   const updateItem = async (item: CartItem) => {
