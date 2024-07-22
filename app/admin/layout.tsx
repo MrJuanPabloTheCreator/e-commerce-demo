@@ -5,6 +5,11 @@ import TopNavbar from "./_components/topNavbar";
 
 import styles from './layout.module.css'
 import { redirect } from 'next/navigation';
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Admin"
+};
 
 const PagesLayout = async ({
     children,

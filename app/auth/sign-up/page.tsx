@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 
 import { login } from '@/actions/login';
 import styles from './page.module.css';
+import Image from 'next/image';
 
 interface NewUser {
     name: string;
@@ -16,6 +17,7 @@ interface NewUser {
 }
 
 export default function SignUp() {
+    const [loading, setLoading] = useState(false)
     const [confirmPassword, setConfirmPassword] = useState<string>('')
     const [newUserForm, setNewUserForm] = useState<NewUser>({
         name: '',
@@ -34,17 +36,17 @@ export default function SignUp() {
                 body: JSON.stringify(newUserForm),
             });
 
-            const data = await response.json();
-            if(data.success){
+            const { success, error } = await response.json();
+            if(success){
                 toast.success('User Created Successfully')
                 await login({email: newUserForm.email, password: newUserForm.password});
             } else {
-                throw new Error('Error creating user')
+                throw new Error(error)
             }
         } catch (error: any) {
             toast.error(error.message);
         } finally {
-            // setLoading(false);
+            setLoading(false);
         }
     };
 
@@ -52,6 +54,7 @@ export default function SignUp() {
         event.preventDefault();
 
         if(confirmPassword === newUserForm.password){
+            setLoading(true)
             handleSubmit();
         } else {
             toast.error('Incorrect passwords')
@@ -61,10 +64,12 @@ export default function SignUp() {
     return (
         <div className={styles.container}>
             <header className={styles.header}>
-                <div className={styles.headerTitle}>
-                    <h1 className={`${styles.headerText} ${styles.textGreen}`}>Party</h1>
-                    <p className={`${styles.headerText} ${styles.textGray}`}>-</p>
-                    <h1 className={`${styles.headerText} ${styles.textGray}`}>Do</h1>
+            <   div className={styles.headerTitle}>
+                    <h1 className={styles.headerText}>Paw</h1>
+                    <div className={styles.imageContainer}>
+                        <Image src={'/logo2.png'} alt="Store Logo" width={65} height={65} className={styles.logoImage}/>
+                    </div>
+                    <h1 className={styles.headerText}>Paradise</h1>
                 </div>
                 <h1 className={styles.welcomeText}>Welcome!</h1>
             </header>
@@ -112,8 +117,9 @@ export default function SignUp() {
                 <button 
                     type="submit"
                     className={styles.button}
+                    disabled={loading}
                 >
-                    Sign Up
+                    {!loading ? 'Sign Up' : 'Loading...'}
                 </button>
             </form>
             <Link 

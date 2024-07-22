@@ -16,14 +16,17 @@ type LoginForm = {
 }
 
 export default function SignIn() {
+  const [loading, setLoading] = useState(false)
   const [loginForm, setLoginForm] = useState<LoginForm>({
     email: '',
     password: '',
   })
 
   const handleSubmit = async (event: React.FormEvent) => {
+    setLoading(true)
     event.preventDefault();
     await login(loginForm);
+    setLoading(false)
   };
 
   return (
@@ -59,8 +62,8 @@ export default function SignIn() {
             className={styles.input}
           />
         </label>
-        <button type="submit" className={styles.button}>
-          Sign In
+        <button type="submit" className={styles.button} disabled={loading}>
+          {!loading ? 'Sign In':'Loading...'}
         </button>
       </form>
       <div className={styles.dividerContainer}>
@@ -68,7 +71,7 @@ export default function SignIn() {
         <p className={styles.orText}>or</p>
         <div className={styles.divider} />
       </div>
-      <button onClick={() => GoogleLogin()} className={styles.googleButton}>
+      <button onClick={() => GoogleLogin()} className={styles.googleButton} disabled={loading}>
         <FcGoogle size={24} />
       </button>
       <Link href={'/auth/sign-up'} className={styles.signUpLink}>

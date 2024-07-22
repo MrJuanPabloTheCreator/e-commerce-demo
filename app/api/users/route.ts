@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
     } catch (error: any) {
         await connection.rollback();
         if((error as any).code === 'ER_DUP_ENTRY'){
-            return new NextResponse(JSON.stringify({ success: false, error: 'Email is already used' }), { status: 400 });
+            return new NextResponse(JSON.stringify({ success: false, error: 'Email already registered' }), { status: 400 });
         }
         return new NextResponse(JSON.stringify({ success: false, error: error.message }), { status: 500 });
 

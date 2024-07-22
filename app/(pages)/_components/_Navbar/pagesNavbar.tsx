@@ -47,11 +47,11 @@ const PagesNavbar = () => {
 
       <section className={styles.topNavbarContainer}>
         <Link className={styles.leftSideTopNav} href={'/'}>
-          <h1 style={{fontSize: '1.5rem'}}>Paw</h1>
+          <h1>Paw</h1>
           <div className={styles.imageContainer}>
-            <Image src={'/logo2.png'} alt="Store Logo" width={65} height={65} className={styles.logoImage}/>
+            <Image src={'/logo2.png'} alt="Store Logo" fill className={styles.logoImage}/>
           </div>
-          <h1 style={{fontSize: '1.5rem'}}>Paradise</h1>
+          <h1>Paradise</h1>
         </Link>
         <div className={styles.searchbar}>
           <input 

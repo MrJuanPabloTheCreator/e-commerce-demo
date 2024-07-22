@@ -47,16 +47,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             if (await bcrypt.compare(password, existingUser.password)) {
               return existingUser;
             }
-            return null;
           }
         } catch (error) {
           console.error('Error during user authorization:', error);
         }
-        return null;
+        return null
       },    
     }),
   ],
-  callbacks: {
+  callbacks: { 
     async signIn({ user, account, profile }){
       if(!account){
         return false;
