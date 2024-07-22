@@ -1,9 +1,14 @@
 .speciesContainer {
-    width: 100%;
     display: flex;
     gap: 0.5rem;
     padding: 0.5rem;
     overflow: auto;
+}
+
+@media (max-width: 600px) {
+    .speciesContainer {
+        width: 100%;
+    }
 }
 
 .specieCard {
