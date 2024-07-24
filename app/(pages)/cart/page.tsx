@@ -1,15 +1,35 @@
 "use client"
 
-import { Trash2 } from "lucide-react";
+import { Minus, Plus, Trash2 } from "lucide-react";
 import { useCart } from "../_context/CartContext";
 import styles from "./page.module.css"
 import Image from "next/image";
 import Link from "next/link";
+import { CartItem } from "@/types/cartItem";
 
 const CartPage = () => {
-  const { cartItems, addToCart, removeFromCart } = useCart();
+  const { cartItems, addToCart, removeFromCart, updateItem } = useCart();
 
   const cartItemsArray = Array.from(cartItems.values());
+
+  const handleGetProductQuantity = (item: CartItem) => {
+    const quantity = item ? item.quantity : 0;
+    return quantity;
+  }
+
+  const handleRemoveFromCart = (e: React.MouseEvent<HTMLButtonElement>, productId: string) => {
+    e.preventDefault()
+    removeFromCart(productId)
+  }
+
+  const handleUpdateItem = (addition: number, product: CartItem) => {
+    const quantity = handleGetProductQuantity(product)
+    if(quantity + addition <= 0){
+      removeFromCart(product.product_id)
+    } else {
+      updateItem({...product, quantity: quantity + addition})
+    }
+  }
 
   const calculateTotal = () => {
     let total = 0;
@@ -43,17 +63,30 @@ const CartPage = () => {
               <div className={styles.imageContainer}>
                 <Image src={item.image_url} alt={"Image"} fill style={{objectFit: 'contain'}}/>
               </div>
-              <div className={styles.productDetails}>
-                <div className={styles.productPrice}>
-                  {item.discount > 0 && <strong style={item.discount > 0 ? { color: 'red'}:{}}>${(item.price * (1 - item.discount/100)).toFixed(2)}</strong>}
-                  <strong style={item.discount > 0 ? { textDecoration: 'line-through', color: 'rgb(155, 155, 155)', fontSize: '0.75rem'}:{}}>${item.price}</strong>
+              <div className={styles.productDetailsContainer}>
+                <div className={styles.productDetails}>
+                  <div className={styles.productPrice}>
+                    {item.discount > 0 && <strong style={item.discount > 0 ? { color: 'red'}:{}}>${(item.price * (1 - item.discount/100)).toFixed(2)}</strong>}
+                    <strong style={item.discount > 0 ? { textDecoration: 'line-through', color: 'rgb(155, 155, 155)', fontSize: '0.75rem'}:{}}>${item.price}</strong>
+                  </div>
+                  <p style={{fontSize: '0.85rem'}}>{item.description}</p>
+                  <p style={{fontSize: '0.85rem'}}>Qty: {item.quantity}</p>
                 </div>
-                <p style={{fontSize: '0.85rem'}}>{item.description}</p>
-                <p style={{fontSize: '0.85rem'}}>Qty: {item.quantity}</p>
+                <div className={styles.actionsContainer}>
+                  <button onClick={(e) => handleRemoveFromCart(e, item.product_id)} className={styles.dropProductButton}>
+                      <Trash2 size={28}/>
+                  </button>
+                  <div className={styles.quantityContainer}>
+                      <button className={styles.decreaseButton} onClick={() => handleUpdateItem(-1, item)}>
+                          <Minus />
+                      </button> 
+                      <span className={styles.quantity}>{handleGetProductQuantity(item)}</span>
+                      <button className={styles.increaseButton} onClick={() => handleUpdateItem(+1, item)}>
+                          <Plus />
+                      </button>
+                  </div>
+                </div>
               </div>
-              <button onClick={() => removeFromCart(item.product_id)} className={styles.dropProductButton}>
-                <Trash2 size={20}/>
-              </button>
             </div>
           )): 
             <div>

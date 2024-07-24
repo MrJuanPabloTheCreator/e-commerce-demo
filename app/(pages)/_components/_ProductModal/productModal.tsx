@@ -3,9 +3,10 @@ import React from 'react'
 import styles from "./productModal.module.css"
 import { Product } from '@/types';
 import Image from 'next/image';
-import { Minus, Plus, X } from 'lucide-react';
+import { Minus, Plus, Trash2, X } from 'lucide-react';
 import { useCart } from '../../_context/CartContext';
 import SaveItemButton from '../_SaveItemButton/saveItemButton';
+import Link from 'next/link';
 
 interface ProductCardProps {
     product: Product;
@@ -43,28 +44,38 @@ const ProductModal:React.FC<ProductCardProps> = ({product, setActiveProductModal
                     <Image src={product.image_url} alt="Product Image" fill className={styles.productImage}/>
                     <SaveItemButton product={product}/>
                 </div>
-                <section className={styles.productDetails}>
-                    <h3>{product.description}</h3>
-                    <div className={styles.productPrice}>
-                        {product.discount > 0 && <strong style={product.discount > 0 ? { color: 'red'}:{}}>${(product.price * (1 - product.discount/100)).toFixed(2)}</strong>}
-                        <strong style={product.discount > 0 ? { textDecoration: 'line-through', color: 'rgb(155, 155, 155)'}:{}}>${product.price}</strong>
+                <section className={styles.productDetailsContainer}>
+                    <div className={styles.productDetails}>
+                        <h3>{product.description}</h3>
+                        <div className={styles.productPrice}>
+                            {product.discount > 0 && <strong style={product.discount > 0 ? { color: 'red'}:{}}>${(product.price * (1 - product.discount/100)).toFixed(2)}</strong>}
+                            <strong style={product.discount > 0 ? { textDecoration: 'line-through', color: 'rgb(155, 155, 155)'}:{}}>${product.price}</strong>
+                        </div>
+                        <p>by {product.product_name}</p>
+                        {product.color_id &&
+                            <div className={styles.colorPreview}>
+                                <p>color</p>
+                                <span style={{backgroundColor: product.color_id}} className={styles.productColor}/>
+                            </div>
+                        }
+                        <p>Units Left: {product.stock}</p>
                     </div>
-                    <p>by {product.product_name}</p>
-                    <div className={styles.colorPreview}>
-                        <p>color</p>
-                        <span style={{backgroundColor: product.color_id}} className={styles.productColor}/>
-                    </div>
-                    <p>Units Left: {product.stock}</p>
 
                     {isItemInCart(product.product_id) ? 
-                        <div className={styles.quantityContainer}>
-                            <button className={styles.decreaseButton} onClick={() => handleUpdateItem(-1)}>
-                                <Minus />
-                            </button> 
-                            <span className={styles.quantity}>{quantity}</span>
-                            <button className={styles.increaseButton} onClick={() => handleUpdateItem(+1)}>
-                                <Plus />
+                        <div className={styles.actionsContainer}>
+                            <button onClick={handleRemoveFromCart} className={styles.dropProductButton}>
+                                <Trash2 size={28}/>
                             </button>
+                            <div className={styles.quantityContainer}>
+                                <button className={styles.decreaseButton} onClick={() => handleUpdateItem(-1)}>
+                                    <Minus />
+                                </button> 
+                                <span className={styles.quantity}>{quantity}</span>
+                                <button className={styles.increaseButton} onClick={() => handleUpdateItem(+1)}>
+                                    <Plus />
+                                </button>
+                            </div>
+                            <Link className={styles.actionButton} href={'/cart'}>Go to cart</Link>
                         </div>
                     : 
                         <button onClick={handleAddToCart} className={styles.addToCartButton}>Add to Cart</button>
