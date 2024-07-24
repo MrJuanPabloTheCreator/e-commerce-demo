@@ -1,0 +1,19 @@
+.skeletonCard {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.skeleton {
+    animation: skeleton-loading 1s linear infinite alternate;
+}
+  
+@keyframes skeleton-loading {
+    0% {
+        background-color: hsl(200, 20%, 88%);
+    }
+
+    100% {
+        background-color: hsl(200, 20%, 95%);
+    }
+}

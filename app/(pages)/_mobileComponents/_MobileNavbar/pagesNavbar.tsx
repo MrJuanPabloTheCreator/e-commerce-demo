@@ -68,29 +68,31 @@ const MobileNavbar = () => {
         </div>
       </section>
 
-      {activeMenu && 
-        <section className={styles.menuContainer}>
-          <header className={styles.menuHeader}>
-            <div className={styles.menuLogo}>
-              <h1>Paw</h1>
-              <div className={styles.imageContainer}>
-                <Image src={'/logo2.png'} alt="Store Logo" fill className={styles.logoImage}/>
-              </div>
-              <h1>Paradise</h1>
+      <section className={`${styles.menuContainer} ${activeMenu ? styles.open : styles.close}`}>
+        <header className={styles.menuHeader}>
+          <div className={styles.menuLogo}>
+            <h1>Paw</h1>
+            <div className={styles.imageContainer}>
+              <Image src={'/logo2.png'} alt="Store Logo" fill className={styles.logoImage}/>
             </div>
-            <button onClick={() => setActiveMenu(false)}>
-              <X size={24}/>
+            <h1>Paradise</h1>
+          </div>
+          <button onClick={() => setActiveMenu(false)}>
+            <X size={24}/>
+          </button>
+        </header>
+        <nav className={styles.categories}>
+          <button onClick={() => (setActiveNav(null), setActiveMenu(false), router.push('/'))}>
+            Home
+          </button>
+          {categories.map((category, index) => 
+            <button onClick={() => (setActiveNav(category.id), setActiveMenu(false))}  key={index} style={category.id === Number(selectedCategory) ? { backgroundColor: '#6D326D', color: 'white' } : {}}>
+              {category.name}
             </button>
-          </header>
-          <nav className={styles.categories}>
-            {categories.map((category, index) => 
-              <button onClick={() => (setActiveNav(category.id), setActiveMenu(false))}  key={index} style={category.id === Number(selectedCategory) ? { backgroundColor: '#6D326D', color: 'white' } : {}}>
-                {category.name}
-              </button>
-            )}
-          </nav>
-        </section>  
-      }
+          )}
+        </nav>
+      </section>  
+      
     </div>
   )
 }

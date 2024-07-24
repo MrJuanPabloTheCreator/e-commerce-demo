@@ -7,6 +7,7 @@ import { Product } from "@/types"
 import styles from "./productListing.module.css"
 import ProductCard from '@/app/(pages)/_components/_ProductCard/productCard';
 import Paginator from "../_Pagination/paginator";
+import SkeletonCard from "../_SkeletonCard/skeletonCard";
 
 const ProductListing = () => {
     const [productsList, setProductsList] = useState<Product[]>([])
@@ -33,9 +34,9 @@ const ProductListing = () => {
                 {productsList.length > 0 ? productsList.map((product, index) => (
                     <ProductCard key={index} product={product}/>
                 )):(
-                    <div>
-                        No Products Results
-                    </div>
+                    Array.from({ length: 12 }).map((_, index) => (
+                        <SkeletonCard key={index}/>
+                    ))
                 )}
             </div>
             <Paginator disableNext={productsList.length < 12}/>

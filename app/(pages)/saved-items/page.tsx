@@ -1,12 +1,7 @@
 "use client"
 
-import { getSession, signIn } from "next-auth/react";
-import { useEffect, useState } from "react";
-import { Session } from "next-auth";
-
 import styles from "./page.module.css"
 import ProductCard from "../_components/_ProductCard/productCard";
-import { Product } from "@/types";
 import { useSavedItems } from "../_context/SavedContext";
 
 const SavedItemsPage = () => {
