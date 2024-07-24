@@ -126,7 +126,7 @@
     display: flex;
     padding: 0.25rem;
     cursor: pointer;
-    border: 2px solid #6D326D;
+    border: none;
     border-radius: 0.25rem;
     background-color: #6D326D;
     color: white;
@@ -138,9 +138,10 @@
     display: flex;
     padding: 0.25rem;
     cursor: pointer;
-    border: 2px solid black;
     border-radius: 0.25rem;
-    background-color: white;
+    border: none;
+    background-color: rgb(211, 211, 211);
+    color: white;
 }
 
 .checkout {

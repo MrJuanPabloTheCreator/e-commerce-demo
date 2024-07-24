@@ -17,9 +17,9 @@ const SpeciesNavbar = () => {
     useEffect(() => {
         const params = new URLSearchParams(searchParams.toString());
         if(activeSpecie){
-        params.set("specie", activeSpecie);
+            params.set("specie", activeSpecie);
         } else {
-        params.delete("specie");
+            params.delete("specie");
         }
 
         router.push(`/products?${params}`)

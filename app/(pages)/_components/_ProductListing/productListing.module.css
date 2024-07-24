@@ -7,6 +7,18 @@
     z-index: 1;
 }
 
+.productListingTitle {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    padding: 0.5rem 0rem;
+    color: #6D326D;
+    background-color: #F6F5AE;
+    font-size: 1.75rem;
+    line-height: 1.5;
+    border-radius: 1rem;
+}
+
 .productListing {
     max-width: 1920px;
     display: grid;
