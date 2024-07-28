@@ -44,9 +44,11 @@ const Paginator:React.FC<PaginatorProps> = ({disableNext}) => {
                     <button className={styles.navigatorContentNumbers} style={{ backgroundColor: '#6D326D', color: 'white'}}>
                         {(activePage) + 1}
                     </button>
-                    <button className={styles.navigatorContentNumbers} onClick={() => handlePageChange(1)} disabled={disableNext}>
-                        {(activePage) + 2}
-                    </button>
+                    {!disableNext &&
+                        <button className={styles.navigatorContentNumbers} onClick={() => handlePageChange(1)}>
+                            {(activePage) + 2}
+                        </button>
+                    }
                 </div>
                 <button className={styles.navigatorContentButton} onClick={() => handlePageChange(1)} disabled={disableNext}>
                     <ChevronsRight size={32}/>

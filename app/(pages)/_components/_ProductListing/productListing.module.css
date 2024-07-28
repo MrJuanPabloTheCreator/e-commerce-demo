@@ -9,7 +9,6 @@
 
 .productListingTitle {
     display: flex;
-    width: 100%;
     justify-content: center;
     padding: 0.5rem 0rem;
     color: #6D326D;
@@ -17,6 +16,7 @@
     font-size: 1.75rem;
     line-height: 1.5;
     border-radius: 1rem;
+    max-width: 1920px;
 }
 
 .productListing {
@@ -30,6 +30,9 @@
         padding-top: 1rem;
         padding-bottom: 1rem;
     }
+    .productListingTitle {
+        width: 85%;
+    }
     .productListing {
         width: 85%;
         grid-template-columns: repeat(4, 1fr);
@@ -40,6 +43,9 @@
     .pageContainer {
         padding: 1rem;
         z-index: 1;
+    }
+    .productListingTitle {
+        width: 100%;
     }
     .productListing {
         width: 100%;

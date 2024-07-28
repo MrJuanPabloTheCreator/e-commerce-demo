@@ -43,7 +43,7 @@ const Cart:React.FC<CartProps> = ({ setActiveAction, activeAction}) => {
           </button>
           <div className={styles.productsContent}>
             {cartItemsArray.length > 0 ? cartItemsArray.map((item, index) => (
-              <div key={index} className={styles.cartItemContainer}>
+              <div key={index} className={styles.cartItemContainer} onClick={() => setActiveAction(null)}>
                 <div className={styles.imageContainer}>
                   <Image src={item.image_url} alt={"Image"} fill style={{objectFit: 'contain'}}/>
                 </div>
@@ -72,8 +72,8 @@ const Cart:React.FC<CartProps> = ({ setActiveAction, activeAction}) => {
             </div>
           }
           {cartItemsArray.length > 0 && <div className={styles.actionsContainer}>
-            <Link className={styles.actionButton} href={'/cart'}>Go to cart</Link>
-            <Link className={styles.actionButton} href={'/checkout'}>Checkout</Link>
+            <Link className={styles.actionButton} href={'/cart'} onClick={() => setActiveAction(null)}>Go to cart</Link>
+            <Link className={styles.actionButton} href={'/checkout'} onClick={() => setActiveAction(null)}>Checkout</Link>
           </div>}
         </div>
       }
